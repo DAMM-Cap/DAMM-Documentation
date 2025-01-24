@@ -98,10 +98,9 @@ For any deposit or withdrawal to succeed:
 2. The broker must have permission for that specific asset
 3. The operation must meet the global policy's minimum amounts
 
-## Deposit & Withdraw Flow
+## Deposit Flow
 ---
 
-**Deposit Flow:**
 1. Broker initiates a deposit
 2. Periphery prices the fund (mark to market) and rebalances Share Vault's UOA token balance to reflect this valuation
 3. Oracle Router prices the deposit in terms of UOA tokens
@@ -135,7 +134,9 @@ graph TD
     class F fund;
 ```
 
-**Withdraw Flow:**
+## Withdraw Flow
+---
+
 1. Broker initiates a withdrawal
 2. Periphery prices the fund (mark to market) and rebalances Share Vault's UOA token balance to reflect this valuation
 3. Share Vault burns broker's LP tokens in exchange for UOA tokens
