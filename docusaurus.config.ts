@@ -44,7 +44,7 @@ const config: Config = {
     navbar: {
       title: 'DAMM Capital',
       logo: {
-        alt: 'DAMM Protocol Logo',
+        alt: 'DAMM Logo',
         src: 'img/logo.svg',
       },
       items: [
