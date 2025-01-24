@@ -103,4 +103,37 @@ graph TD
     class PF parent
     class CF1,CF2,CF3 child
     class S1,S2,S3 strategy
-``` 
+```
+
+## Cross-Chain Capabilities
+---
+
+The DAMM Protocol leverages Safe's native cross-chain infrastructure to enable truly cross-chain investment funds. Through Safe's deterministic deployment system, funds can be launched simultaneously across multiple blockchain networks while maintaining the same address on each chain.
+
+```mermaid
+graph TD
+    %% Safe Deployer
+    D[Safe Deployer] -->|Deploy Fund| C1[Ethereum]
+    D -->|Deploy Fund| C2[Polygon]
+    D -->|Deploy Fund| C3[Arbitrum]
+    
+    %% Resulting Funds with Same Address
+    C1 -->|0xabc...| F1[Fund on ETH]
+    C2 -->|0xabc...| F2[Fund on Polygon]
+    C3 -->|0xabc...| F3[Fund on Arbitrum]
+
+    
+    %% Styling
+    classDef deployer fill:#f9f,stroke:#333,stroke-width:2px
+    classDef chain fill:#dfd,stroke:#333,stroke-width:1px
+    classDef fund fill:#bbf,stroke:#333,stroke-width:1px
+    
+    class D deployer
+    class C1,C2,C3 chain
+    class F1,F2,F3 fund
+```
+
+This cross-chain architecture, combined with bridge protocols, enables:
+- Unified fund management across multiple networks
+- Cross-chain capital deployment
+- Cross-chain communication between funds
