@@ -137,3 +137,30 @@ This cross-chain architecture, combined with bridge protocols, enables:
 - Unified fund management across multiple networks
 - Cross-chain capital deployment
 - Cross-chain communication between funds
+
+### Supported Networks
+
+#### Mainnets
+- Aurora
+- Arbitrum
+- Avalanche
+- Base
+- Blast
+- BNB Chain
+- Celo
+- Ethereum
+- Gnosis Chain
+- Linea
+- Mantle
+- Optimism
+- Polygon
+- Polygon zkEVM
+- Scroll
+- World Chain
+- X Layer
+- zkSync Era
+
+#### Testnets
+- Base Sepolia
+- Ethereum Sepolia
+
