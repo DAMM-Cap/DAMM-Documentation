@@ -10,18 +10,20 @@ const config: Config = {
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
-  url: 'https://docs.dammcap.finance',
+  url: 'https://damm-cap.github.io',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'DAMM Capital', // Usually your GitHub org/user name.
-  projectName: 'damm-capital', // Usually your repo name.
+  organizationName: 'DAMM-Cap', // Usually your GitHub org/user name.
+  projectName: 'DAMM-Documentation', // Usually your repo name.
+  deploymentBranch: 'main',
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
+  trailingSlash: false,
 
   markdown: {
     mermaid: true,
