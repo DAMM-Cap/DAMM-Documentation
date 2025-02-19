@@ -1,12 +1,26 @@
 ---
 id: deposit_module
-title: Deposit Module
+title: DAMM Deposit Module
 sidebar_position: 2
 ---
 
-The Periphery contract (Deposit Module) is the core deposit management system for a DAMM fund. It handles asset deposits and withdrawals while maintaining a standardized unit of account across different assets. The Periphery tokenizes deposits through an ERC-4626 compliant vault system and manages broker relationships through NFT-based accounts.
+The DAMM Deposit Module is a smart contract module developed by DAMM Capital that serves as the primary interface between users and DAMM funds. **It tokenizes fund assets as an ERC-4626 compliant LP token**, allowing users to deposit and withdraw assets from the fund.
 
-Withdrawals and Deposits are supported in two ways:
+The module is built using the [Zodiac framework](https://github.com/gnosis/zodiac), the [Euler v2 Oracle Standard (ERC-7726)](https://github.com/euler-xyz/euler-price-oracle), and [Permit2](https://github.com/Uniswap/permit2). These battle-tested libraries make the module secure, extensible, and composable.
+
+Key features include:
+- ERC-4626 compliant share tokens
+- NFT-based brokerage account system
+- Withdraw and deposits in any basket of assets
+- Configurable asset policies
+- Intent-based transaction support
+- Flexible and composable fee structures
+- Oracle network agnostic
+
+## Deposits/Withdrawals
+---
+
+The module supports both direct (atomic) and intent-based (delayed/gasless) transactions, making it flexible for various use cases.
 
 **Direct Operations (Atomic)**
 - User directly calls deposit/withdraw functions
@@ -16,46 +30,24 @@ Withdrawals and Deposits are supported in two ways:
 **Intent-Based Operations (Delayed Execution)**
 - User signs an intent to deposit/withdraw
 - Intent includes:
-  - A relayer tip (paid in the deposit/withdraw asset) to incentivize execution
-  - A bribe amount paid to the fund to cover potential rebalancing costs
+  - A relayer tip (paid in the deposit/withdraw asset) to incentivize execution (can be zero)
+  - A bribe amount paid to the fund to cover potential rebalancing costs (can be zero)
 - Third-party relayers submit the transaction on-chain
 - Relayers earn the tip for covering gas costs
-- Enables gasless transactions for users
-
-```mermaid
-graph TD
-    %% Core Components
-    P[Periphery] --> F[Fund]
-    
-    %% Periphery Components
-    P --> UOA[Unit of Account Token]
-    P --> LP[Fund Share Vault]
-    P --> BA[Brokerage Accounts]
-    P --> AP[Asset Policies]
-    P --> OR[Oracle Router]
-    
-    %% Styling
-    classDef module fill:#f9f,stroke:#333,stroke-width:2px
-    classDef fund fill:#bbf,stroke:#333,stroke-width:2px
-    classDef component fill:#dfd,stroke:#333,stroke-width:1px
-    
-    class P module;
-    class F fund;
-    class UOA,LP,BA,AP,OR component;
-```
+- Enables asynchronous gasless transactions for users
 
 ## Brokers
 ---
 
-Brokers are permissioned entities that can deposit and withdraw from a fund. Each broker is represented by an NFT issued by the fund administrators through the Periphery contract, which may be transferable or non-transferable. The NFT encodes the broker's:
-
-- Permissions (transferable/non-transferable)
-- Share mint limits
-- Account lifetime duration
-- Fee configuration
-  - Performance fees
-  - Entrance fees
-  - Exit fees
+Brokers are permissioned entities that can deposit and withdraw from a fund. Each broker account is represented by an NFT (ERC-721). These accounts are referred to as a **Brokerage accounts**. Brokerage accounts are issued through the Periphery contract by the fund administrators or permissioned actors. They may be transferable or non-transferable and encode the following:
+- Transfer Policy (transferable/non-transferable)
+- Nominal share mint limit
+- Account expiration date (can be infinite)
+- Fee configuration (protocol and broker-specific)
+  - Performance fee
+  - Entrance fee
+  - Exit fee
+- Broker fee recipient
 - Asset policies
 - Account state (active/paused/closed)
 
@@ -64,12 +56,53 @@ Brokers can:
 - Withdraw allowed assets (burn fund shares)
 - Earn yield on deposits and share in the fund's fees
 
+> **Important:** Brokerage accounts can be `public` or `private`. Public accounts give any user access to the broker functionality (withdrawals, deposits, etc.), while private accounts restrict access to the owner of the NFT.
+
+## Fees
+---
+
+The DAMM Deposit Module implements a dual-fee system where both the protocol and brokers can charge fees. These fees are split between the protocol fee recipient (configured by the fund) and the broker fee recipient (configured by individual brokers).
+
+> **Important:** The broker fee structure is configured on a per-brokerage account basis at the time of issuance. The broker fee structure can **not** be changed after issuance. Only the protocol management fee can be changed after issuance.
+
+### Fee Types
+
+1. **Management Fee**
+   - An annualized rate charged on the total assets under management
+   - Calculated and collected during deposits, withdrawals, or when `skimManagementFee()` is called
+   - Linear fee structure based on time elapsed since last collection
+   - **Protocol only - not available to brokers**
+
+2. **Entrance Fee**
+   - Charged as a percentage (in basis points) of deposit amount
+   - Deducted from the shares minted to the depositor
+   - **Available to both protocol and brokers**
+
+3. **Exit Fee**
+   - Charged as a percentage (in basis points) of withdrawal amount
+   - Deducted from the assets returned to the withdrawer
+   - **Available to both protocol and brokers**
+
+4. **Performance Fee**
+   - Charged on positive performance only
+   - Calculated based on the difference between realized share price and broker's average entry price (high water mark)
+   - Collected during withdrawals
+   - **Available to both protocol and brokers**
+
+
+### Fee Stacking
+
+Fees from both the protocol and broker are additive. For example:
+- If broker entrance fee is 50 BPs and protocol entrance fee is 50 BPs, the total entrance fee for deposits through this broker is 100 BPs
+- The same additive principle applies to exit and performance fees
+- All fees are capped to ensure total fees (broker + protocol) cannot exceed 100%
+
 ## Asset Policies
 ---
 
 A Fund manages two levels of asset policies that control which assets can be deposited or withdrawn by brokers. Both global and broker-specific policies are set by the Fund through the Periphery contract.
 
-**Global Asset Policies**
+### Global Asset Policies
 - Define the base rules for all asset interactions
 - Can be used to:
   - Enable/disable specific assets
@@ -88,7 +121,7 @@ struct AssetPolicy {
 }
 ```
 
-**Broker-Specific Asset Policies**
+### Broker-Specific Asset Policies
 - Managed per brokerage account
 - Simply enable/disable specific assets for each broker
 - Granular control for deposits and withdrawals
@@ -101,26 +134,50 @@ For any deposit or withdrawal to succeed:
 ## Deposit Flow
 ---
 
-1. Broker initiates a deposit
-2. Periphery prices the fund (mark to market) and rebalances Share Vault's UOA token balance to reflect this valuation
-3. Oracle Router prices the deposit in terms of UOA tokens
-4. Assets are transferred to the Fund
-5. Periphery mints UOA tokens and deposits them into Share Vault
-6. Share Vault mints LP tokens to the broker
+The deposit process involves multiple steps across the Periphery and Deposit Module contracts:
+
+1. **User Initiates Deposit**
+   - User approves allowance to Periphery via Permit2
+   - User calls deposit function on Periphery contract
+
+2. **Periphery Asset Transfer**
+   - Periphery contract pulls assets from user
+   - Assets are temporarily held by Periphery
+
+3. **Deposit Module Interaction**
+   - Periphery calls deposit function on Deposit Module
+
+4. **Internal Vault Rebalancing**
+   - Deposit Module prices all fund assets (mark-to-market)
+   - Internal Share Vault is rebalanced using Unit of Account tokens
+   - Ensures vault balance matches fund's mark-to-market value
+
+5. **Asset Pricing**
+   - Deposit Module prices deposited assets in terms of Unit of Account tokens
+
+6. **Asset and Token Management**
+   - Deposit Module pulls assets from Periphery to Fund
+   - Mints corresponding Unit of Account tokens
+   - Deposits Unit of Account tokens into vault
+   - Receives LP tokens, which are sent to Periphery
+
+7. **Final Distribution**
+   - Periphery forwards LP tokens to user after applying fees
+   - Transaction completes
 
 ```mermaid
 graph TD
     %% Actors
-    B[Broker] -->|"(1) Deposit"| P[Periphery]
+    U[User] -->|"(1) Approve Periphery"| P2[Permit2]
+    U -->|"(2) Call Deposit"| P[Periphery]
     
     %% Core Flow
-    P -->|"(2) Rebalance"| SV[Share Vault]
-    P -->|"(3) Price Assets"| OR[Oracle Router]
-    B -->|"(4) Transfer Assets"| F[Fund]
-    P -->|"(5) Mint & Deposit UOA"| SV
-    
-    %% Token Flow
-    SV -->|"(6) Mint LP"| B
+    P2 -->|"(3) Transfer Assets"| P
+    P -->|"(4) Request Deposit"| DM[Deposit Module]
+    DM -->|"(5) Rebalance"| SV[Share Vault]
+    P -->|"(6) Transfer Assets"| F[Fund]
+    DM -->|"(7) Mint LP Tokens"| P
+    P -->|"(8) Forward LP Tokens - fees"| U
     
     %% Styling
     classDef user fill:#ffd,stroke:#333,stroke-width:2px
@@ -128,33 +185,49 @@ graph TD
     classDef component fill:#dfd,stroke:#333,stroke-width:1px
     classDef fund fill:#bbf,stroke:#333,stroke-width:2px
     
-    class B user;
-    class P module;
-    class OR,UOA,SV component;
+    class U user;
+    class P,DM,P2 module;
+    class SV component;
     class F fund;
 ```
 
 ## Withdraw Flow
 ---
 
-1. Broker initiates a withdrawal
-2. Periphery prices the fund (mark to market) and rebalances Share Vault's UOA token balance to reflect this valuation
-3. Share Vault burns broker's LP tokens in exchange for UOA tokens
-4. Periphery prices the UOA tokens in terms of asset to withdraw
-5. Periphery burns corresponding UOA tokens
-6. Fund transfers assets to the broker
+The withdrawal process follows a similar but inverse pattern to deposits:
+
+1. **User Approval & Initiation**
+   - User grants Permit2 allowance for LP tokens
+   - User initiates withdrawal transaction
+
+2. **Share Transfer**
+   - Periphery pulls LP tokens from user via Permit2
+
+3. **Withdrawal Processing**
+   - Deposit Module marks fund assets to market
+   - Rebalances internal vault with Unit of Account tokens
+   - Management fee is collected
+
+4. **Asset Return**
+   - LP tokens are burned for Unit of Account tokens
+   - Unit of Account tokens are burned for assets
+   - Fund transfers assets to Periphery
+
+5. **Distribution**
+   - Periphery forwards assets to user after fees
 
 ```mermaid
 graph TD
     %% Actors
-    B[Broker] -->|"(1) Withdraw"| P[Periphery]
+    U[User] -->|"(1) Approve Periphery"| P2[Permit2]
+    U -->|"(2) Call Withdrawal"| P[Periphery]
     
     %% Core Flow
-    P -->|"(2) Rebalance"| SV[Share Vault]
-    SV -->|"(3) Burn LP & Return UOA"| P
-    P -->|"(4) Price UOA tokens"| OR[Oracle Router]
-    P -->|"(5) Burn UOA"| UOA[Unit of Account]
-    B -->|"(6) Transfer Assets"| F[Fund]
+    P2 -->|"(3) Transfer LP Tokens"| P
+    P -->|"(4) Request Withdrawal"| DM[Deposit Module]
+    DM -->|"(5) Rebalance"| SV[Share Vault]
+    F[Fund] -->|"(6) Transfer Assets"| P
+    P -->|"(7) Forward Assets - fees"| U
     
     %% Styling
     classDef user fill:#ffd,stroke:#333,stroke-width:2px
@@ -162,55 +235,8 @@ graph TD
     classDef component fill:#dfd,stroke:#333,stroke-width:1px
     classDef fund fill:#bbf,stroke:#333,stroke-width:2px
     
-    class B user;
-    class P module;
-    class OR,UOA,SV component;
+    class U user;
+    class P,DM,P2 module;
+    class SV component;
     class F fund;
 ```
-
-## Deposit Module Variants
----
-
-Deposit Modules are user-facing contracts that provide different ways to interact with a fund's brokerage account. The architecture works as follows:
-
-1. A Gnosis Safe is deployed
-2. A Deposit Module is attached to the Safe
-3. The Safe is issued a broker NFT from the fund's Periphery
-4. Users can now interact with the broker NFT through the Deposit Module
-
-This modular design allows:
-- Multiple deposit modules to exist for the same fund
-- Different access patterns to the same broker NFT
-- Flexible user-facing interfaces while maintaining security
-
-```mermaid
-graph LR
-    U[User] -->|Deposit/Withdraw| DM[Deposit Module]
-    DM -->|Forward Assets| S[Safe]
-    S -->|Execute Deposit/Withdraw| P[Periphery]
-    P -->|Interact| F[Fund]
-    P -->|Return LP Tokens| U
-    
-    P -.->|Broker NFT| S
-    
-    classDef user fill:#ffd,stroke:#333,stroke-width:2px
-    classDef module fill:#f9f,stroke:#333,stroke-width:2px
-    classDef contract fill:#dfd,stroke:#333,stroke-width:1px
-    
-    class U user
-    class DM module
-    class S,P,F contract
-```
-There are two main variants:
-
-**Permissionless Deposit Module**
-- Allows any user to deposit/withdraw through the fund
-- No restrictions on who can use the module
-- Useful for public-facing funds
-- Example use case: Public yield aggregator
-
-**Whitelist Deposit Module**
-- Restricts deposits/withdrawals to whitelisted addresses
-- Maintains an on-chain allowlist of permitted users
-- Admin can add/remove users from whitelist
-- Example use case: Sharing brokerage account with many addresses

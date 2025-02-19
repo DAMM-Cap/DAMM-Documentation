@@ -22,7 +22,7 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'DAMM Toolkit',
-      items: ['toolkit/intro', 'toolkit/funds', 'toolkit/transaction_module', 'toolkit/deposit_module', 'toolkit/oracles'],
+      items: ['toolkit/intro', 'toolkit/funds', 'toolkit/deposit_module', 'toolkit/oracles'],
     },
   ],
 };
