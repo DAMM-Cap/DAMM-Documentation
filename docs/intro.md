@@ -5,4 +5,4 @@ title: Introduction
 sidebar_position: 1
 ---
 
-Welcome to DAMM Capital's technical documentation. This comprehensive guide covers our suite of blockchain-based financial products and infrastructure, including the DAMM Protocol, our flagship Automated Liquidity Management (ALM) system.
+DAMM Capital is a DeFi frontier lab focused on decentralized capital management solutions. We are team of engineers, quants, and asset managers who are passionate about building the future of **Decentralized Autonomous Money Management (DAMM)**.
