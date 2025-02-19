@@ -4,9 +4,9 @@ title: DAMM Deposit Module
 sidebar_position: 2
 ---
 
-The DAMM Deposit Module is a smart contract module developed by DAMM Capital that serves as the primary interface between users and DAMM funds. **It tokenizes fund assets as an ERC-4626 compliant LP token**, allowing users to deposit and withdraw assets from the fund.
+The DAMM Deposit Module is a smart contract developed by DAMM Capital, acting as the main interface between users and DAMM funds. It converts fund assets into **ERC-4626 compliant LP tokens**, enabling users to deposit and withdraw assets.
 
-The module is built using the [Zodiac framework](https://github.com/gnosis/zodiac), the [Euler v2 Oracle Standard (ERC-7726)](https://github.com/euler-xyz/euler-price-oracle), and [Permit2](https://github.com/Uniswap/permit2). These battle-tested libraries make the module secure, extensible, and composable.
+The module is built using the [Zodiac framework](https://github.com/gnosis/zodiac), the [Euler v2 Oracle Standard (ERC-7726)](https://github.com/euler-xyz/euler-price-oracle), and [Permit2](https://github.com/Uniswap/permit2). These battle-tested libraries allow the module to be extensible and composable.
 
 Key features include:
 - ERC-4626 compliant share tokens
@@ -46,7 +46,7 @@ The module supports both direct (atomic) and intent-based (delayed/gasless) tran
 
 Brokers are permissioned entities that can deposit and withdraw from a fund. Each broker account is represented by an NFT (ERC-721). These accounts are referred to as a **Brokerage accounts**. Brokerage accounts are issued through the Periphery contract by the fund administrators or permissioned actors. They may be transferable or non-transferable and encode the following:
 - Transfer Policy (transferable/non-transferable)
-- Nominal share mint limit
+- Nominal share (LP token) mint limit
 - Account expiration date (can be infinite)
 - Fee configuration (protocol and broker-specific)
   - Performance fee
@@ -68,7 +68,9 @@ Brokers can:
 
 The DAMM Deposit Module implements a dual-fee system where both the protocol and brokers can charge fees. These fees are split between the protocol fee recipient (configured by the fund) and the broker fee recipient (configured by individual brokers).
 
-> **Important:** The broker fee structure is configured on a per-brokerage account basis at the time of issuance. The broker fee structure can **not** be changed after issuance. Only the protocol management fee can be changed after issuance.
+> **Important:** The broker fee structure is configured on a per-brokerage account basis at the time of issuance. The broker fee structure can **not** be changed after issuance.
+
+> **Important:** Only the protocol management fee can be changed after issuance.
 
 ### Fee Types
 

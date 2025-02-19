@@ -45,9 +45,9 @@ A fund can have various use cases, including:
 ## Module-Based Architecture
 ---
 
- Funds are designed to be modular, allowing for a wide range of capabilities to added according to its mandate. Capabilities are added as modules to the fund. Modules are smart contracts that natively extend the underlying Safe contract. Some modules we tend to use are:
+ Funds are modular, enabling various capabilities to be added as needed. These capabilities are integrated as modules—smart contracts that natively extend the Safe smart wallet. Some modules we like to use are:
 
-- **DAMM Deposit Module**: Enables users to deposit and withdraw assets from the fund, tokenizing the fund's assets into ERC-4626 compliant LP tokens. This LP token gives the depositor exposure to the fund and is composable with other DeFi protocols. See [DAMM Contracts](https://github.com/DAMM-Cap/DAMM-Contracts) for more information.
+- **DAMM Deposit Module**: Enables users to deposit and withdraw assets from the fund, issuing ERC-4626 compliant LP tokens in return. See [Deposit Module](./deposit_module.md) for more information.
 - **Zodiac Roles Module**: Enables permissioned transaction execution by operators on behalf of the fund. Allows for varying levels of access through the use of roles. See [Zodiac Roles Module](https://www.zodiac.wiki/documentation/roles-modifier) for more information.
 - **Palmera Safe Module**: Enables funds to be configured in a parent-child hierarchy where a parent fund directs the management of multiple child funds. See [Palmera Safe Module](https://docs.palmeradao.xyz/palmera-module-safe-hierarchical-structure) for more information.
 
@@ -149,28 +149,3 @@ This cross-chain architecture, combined with bridge protocols, enables:
 #### Testnets
 - Base Sepolia
 - Ethereum Sepolia
-
-
-
-<!-- The toolkit's primary purpose is to bridge the gap between traditional fund management and decentralized finance (DeFi) by providing:
-- Brokerage system for customizable access control and differential fee structures
-- Support for any basket of digital assets
-- Easily integrate with any DeFi protocol
-- Deposits are tokenized into composable fund share tokens (ERC-4626)
-- Flexible and customizable oracle system -->
-
-<!-- 
-Funds are designed around three fundamental principles:
-
-1. **EOA-Like Capabilities**
-   - Funds should have the same capabilities as externally owned accounts (EOAs)
-   - No restrictions on which protocols or assets can be integrated
-
-2. **Off-Chain Asset Management**
-   - All asset management logic and decision-making happens off-chain
-   - On-chain components focus on execution, security, and accounting
-   - Enables rapid strategy adaptation without protocol upgrades
-
-3. **Flexible Decentralization**
-   - Supports varying degrees of decentralization based on fund requirements
-   - Immutable by default -->
