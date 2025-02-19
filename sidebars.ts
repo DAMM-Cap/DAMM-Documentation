@@ -21,8 +21,8 @@ const sidebars: SidebarsConfig = {
     },
     {
       type: 'category',
-      label: 'DAMM Protocol',
-      items: ['protocol/intro', 'protocol/design', 'protocol/transaction_module', 'protocol/deposit_module', 'protocol/oracles'],
+      label: 'DAMM Toolkit',
+      items: ['toolkit/intro', 'toolkit/funds', 'toolkit/deposit_module'],
     },
   ],
 };
