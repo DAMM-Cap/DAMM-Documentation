@@ -17,6 +17,11 @@ Key features include:
 - Flexible and composable fee structures
 - Oracle network agnostic
 
+## Repository
+---
+
+The Deposit Module source code is available in the [DAMM Contracts repository](https://github.com/DAMM-Cap/DAMM-Contracts/tree/main/src/modules/deposit).
+
 ## Deposits/Withdrawals
 ---
 
@@ -240,3 +245,40 @@ graph TD
     class SV component;
     class F fund;
 ```
+
+## Oracles
+---
+
+The DAMM Protocol uses the [Euler v2 Oracle Standard (ERC-7726)](https://github.com/euler-xyz/euler-price-oracle) for fund valuation. The system consists of two main components: The Oracle Router and Oracle Adapters.
+
+Oracle adapters are high-level wrappers that standardize price feeds from various oracle providers into a common interface. Each adapter is a minimal, immutable contract that queries a specific external price feed, serving as the atomic building blocks of the oracle system. A collection of production-ready adapters can be found in the [Euler Price Oracle repository](https://github.com/euler-xyz/euler-price-oracle/tree/master/src/adapter).
+
+The [EulerRouter](https://github.com/euler-xyz/euler-price-oracle/blob/master/src/EulerRouter.sol) acts as a central registry and resolver for oracle price feeds. It can register oracle adapters for specific asset pairs, resolve complex pricing paths by chaining multiple oracles together, support ERC4626 vault share pricing via `convertToAssets`, and fall back to alternative oracles if primary ones are unavailable. This allows protocols to obtain prices for any asset pair, as long as the required oracle adapters are registered in its configuration.
+
+The DAMM Toolkit leverages already existing adapters created by peers but also provides a few custom adapters.
+
+### Balance Of Oracle
+---
+
+A specialized oracle adapter that aggregates and values multiple token balances. The Balance Of Oracle:
+1. Maintains a list of asset-holder pairs to monitor
+2. Fetches current balances for each asset-holder pair
+3. Prices each balance using the oracle router
+4. Returns the total value in the requested quote currency
+
+The Balance Of Oracle supports both ERC20 tokens and native assets, with a dynamically updatable balance list managed by the owner. For gas optimization, zero-value balances are automatically skipped during processing.
+
+This oracle is essential for mark-to-market valuations, enabling accurate fund valuation across multiple assets and addresses.
+
+### Trusted Rate Oracle
+---
+
+A permissioned oracle adapter that provides discretionary pricing for assets that are challenging to price on-chain. The Trusted Rate Oracle:
+1. Maintains a fixed exchange rate between two assets
+2. Includes rate expiration timestamps for staleness checks
+3. Requires owner permission to update rates
+4. Supports decimal conversion between assets
+
+The Trusted Rate Oracle is designed to handle scenarios where traditional on-chain price discovery is impractical or impossible. It excels at pricing complex derivative positions like structured products and options, providing rates for illiquid or off-chain assets, and managing prices for synthetic or composite assets that lack direct market equivalents.
+
+This oracle assumes the admin is a trusted actor since they have unilateral control over setting prices and validity timeframes. However, the system can be made more trustless by pushing the trust assumption up the stack through various mechanisms. This could involve implementing a commit-reveal scheme for price submissions, delegating admin control to an incentivized solver network, utilizing a multi-party computation (MPC) system, or requiring multiple independent price attestations.
