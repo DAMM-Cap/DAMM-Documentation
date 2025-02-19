@@ -47,7 +47,7 @@ A fund can have various use cases, including:
 
  Funds are modular, enabling various capabilities to be added as needed. These capabilities are integrated as modules—smart contracts that natively extend the Safe smart wallet. Some modules we like to use are:
 
-- **DAMM Deposit Module**: Enables users to deposit and withdraw assets from the fund, issuing ERC-4626 compliant LP tokens in return. See [DAMM Deposit Module](./deposit_module) for more information.
+- **DAMM Deposit Module**: Enables users to deposit and withdraw assets from the fund, issuing ERC-4626 compliant LP tokens in return. See [DAMM Deposit Module](./toolkit/deposit_module) for more information.
 - **Zodiac Roles Module**: Enables permissioned transaction execution by operators on behalf of the fund. Allows for varying levels of access through the use of roles. See [Zodiac Roles Module](https://www.zodiac.wiki/documentation/roles-modifier) for more information.
 - **Palmera Safe Module**: Enables funds to be configured in a parent-child hierarchy where a parent fund directs the management of multiple child funds. See [Palmera Safe Module](https://docs.palmeradao.xyz/palmera-module-safe-hierarchical-structure) for more information.
 
