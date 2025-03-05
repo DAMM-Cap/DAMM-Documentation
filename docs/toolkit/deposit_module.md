@@ -1,7 +1,7 @@
 ---
 id: deposit_module
 title: DAMM Deposit Module
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 The DAMM Deposit Module is a smart contract developed by DAMM Capital, acting as the main interface between users and DAMM funds. It converts fund assets into **ERC-4626 compliant LP tokens**, enabling users to deposit and withdraw assets.
