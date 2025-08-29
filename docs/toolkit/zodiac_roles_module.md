@@ -20,33 +20,41 @@ The Roles Module is widely adopted across the industry, with leading DeFi fund m
 
 ## Key Features
 
-- **Granular Permissions**: Define which contracts operators can interact with and which functions they can call
-- **Parameter Scoping**: Restrict not just which functions can be called, but also what parameter values are allowed
-- **Allowance Management**: Set spending limits to control how much value operators can transfer
-- **Multi-Module Support**: Works with all Zodiac-compatible modules
+- **Granular Permissions:** Define which contracts operators can interact with and which functions they can call  
+- **Parameter Scoping:** Restrict not just which functions can be called, but also what parameter values are allowed  
+- **Allowance Management:** Set spending limits to control how much value operators can transfer, and define call allowances to restrict how often specific functions can be executed within a given timeframe  
+- **Multi-Module Support:** Works with all Zodiac-compatible modules  
+
 
 ## Use Cases in DAMM Funds
 
 DAMM Funds leverage the Roles Module for several critical applications:
 
-1. **Operational Security**: Separate duties between administrators and operators
-2. **Asset Allocation**: Allow fund managers to allocate assets with specific permissions and limits
-3. **Protocol Interaction**: Enable specialized roles for specific DeFi protocol interactions
-4. **Risk Management**: Limit the maximum value that can be deployed to specific protocols
-5. **Automated Execution**: Allow bots or automated systems to execute specific functions without full access
-6. **Emergency Response**: Create special roles for emergency situations with limited, specific powers
+1. **Operational Security:** Separate duties between administrators and operators  
+2. **Asset Allocation:** Allow fund managers to allocate assets with specific permissions and limits  
+3. **Protocol Interaction:** Enable specialized roles for specific DeFi protocol interactions  
+4. **Risk Management:** Limit the maximum value that can be deployed to specific protocols  
+5. **Automated Execution:** Allow bots or automated systems to execute specific functions without full access  
+6. **Emergency Response:** Designate **guardian roles** with the ability to execute emergency transactions, such as withdrawing funds from protocols during a hack or critical exploit scenario  
+
 
 ## Implementation
 
 The configuration of roles and permissions is managed using the [Zodiac Roles SDK](https://www.npmjs.com/package/zodiac-roles-sdk), a TypeScript package that provides a programmatic interface for defining and managing role permissions.
 
 Using this SDK, administrators can:
-- Create and manage roles programmatically
-- Define precise permission sets for different operator types
-- Update permissions as operational requirements evolve
-- Maintain an auditable record of permission changes
+- Create and manage roles programmatically  
+- Define precise permission sets for different operator types  
+- Update permissions as operational requirements evolve  
+- Maintain an auditable record of permission changes  
 
-This approach allows for both flexibility and security in managing fund operations, ensuring that operators have exactly the permissions they need while protecting the underlying assets.
+In addition, DAMM Capital leverages its proprietary **DAMM DeFi Kit**, an SDK built on top of the Zodiac Roles SDK. The DAMM DeFi Kit expands functionality by enabling:
+- One-click fund deployment and configuration  
+- Native integrations with a wide range of DeFi protocols  
+- Automated role assignments for operators and bots  
+- Streamlined workflows for fund upgrades and strategy management  
+
+This layered approach provides both flexibility and automation, ensuring operators have exactly the permissions they need while enabling DAMM to efficiently launch and manage funds at scale.  
 
 ## Additional Resources
 

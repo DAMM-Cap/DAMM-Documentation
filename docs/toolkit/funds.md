@@ -48,7 +48,7 @@ A fund can have various use cases, including:
 Funds are modular, enabling various capabilities to be added as needed. These capabilities are integrated as modules—smart contracts that natively extend the Safe smart wallet. Some modules we use are:
 
 - **Lagoon Deposit Module**: Built by [Lagoon Finance](https://lagoon.finance), this module allows users to deposit and withdraw assets from the fund. It tokenizes the holdings of a Safe into an [ERC-7540](https://eips.ethereum.org/EIPS/eip-7540) compliant token, standardizing the way shares of the fund are issued and redeemed. See [Lagoon Docs](https://docs.lagoon.finance/overview/lagoon-vault-architecture) for more information.
-- **Zodiac Roles Module**: Enables permissioned transaction execution by operators on behalf of the fund. Allows for varying levels of access through the use of roles. See [Zodiac Roles Module](https://www.zodiac.wiki/documentation/roles-modifier) for more information.
+- **Zodiac Roles Module**: Enables permissioned transaction execution by operators on behalf of the fund. Allows for varying levels of access through the use of roles. See [Zodiac Roles Module](./zodiac_roles_module.md) for more information.
 - **Zodiac Delay Module**: Introduces a time delay for executing specific transactions. This is particularly important for high-security administrative actions such as upgrading the fund or modifying its configuration. By enforcing a mandatory delay, it gives stakeholders time to review and, if necessary, react before critical changes are finalized. See [Zodiac Delay Module](https://www.zodiac.wiki/documentation/delay-modifier) for more information.
 
 > There are many more modules that can be combined to extend a fund's capabilities.
@@ -58,7 +58,7 @@ Funds are modular, enabling various capabilities to be added as needed. These ca
 
 DAMM Funds are designed to be standalone investment vehicles but can be interconnected in various ways:
 
-- **Fund-to-Fund**: Funds can deposit capital into other funds, receiving LP tokens in return. For example, a high-risk fund focusing on long-tail assets might allocate a portion of its capital to a low-risk stablecoin fund for risk management or short-term liquidity.
+- **Fund-to-Fund:** Funds can deposit capital into other funds, receiving LP tokens in return. For example, a high-risk fund focusing on long-tail assets might allocate a portion of its capital to a low-risk stablecoin fund for risk management or short-term liquidity.
 
 
 ```mermaid
@@ -77,7 +77,7 @@ graph TD
 ```
 
 
-- **Mother-Child**: Funds can be structured in a mother-child hierarchy where one Safe (mother) directly owns and manages multiple sub-Safes (children), enabling:
+- **Mother-Child:** Funds can be structured in a mother-child hierarchy where one Safe (mother) directly owns and manages multiple sub-Safes (children), enabling:
   - Better risk encapsulation through isolation
   - Cleaner separation of responsibilities across different strategies
 
@@ -137,29 +137,3 @@ This cross-chain architecture, combined with bridge protocols, enables:
 - Unified fund management across multiple networks
 - Cross-chain capital deployment
 - Cross-chain communication between funds
-
-### Supported Networks
-
-#### Mainnets
-- Aurora
-- Arbitrum
-- Avalanche
-- Base
-- Blast
-- BNB Chain
-- Celo
-- Ethereum
-- Gnosis Chain
-- Linea
-- Mantle
-- Optimism
-- Polygon
-- Polygon zkEVM
-- Scroll
-- World Chain
-- X Layer
-- zkSync Era
-
-#### Testnets
-- Base Sepolia
-- Ethereum Sepolia
