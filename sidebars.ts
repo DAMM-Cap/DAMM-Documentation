@@ -22,8 +22,8 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'DAMM Toolkit',
-      items: ['toolkit/intro', 'toolkit/funds', 'toolkit/deposit_module'],
-    },
+      items: ['toolkit/intro', 'toolkit/fund_architecture', 'toolkit/modular_capabilities', 'toolkit/cross_chain', 'toolkit/zodiac_roles_module', 'toolkit/lagoon_deposit_module'],
+    }
   ],
 };
 

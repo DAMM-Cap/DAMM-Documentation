@@ -20,18 +20,17 @@ graph LR
     F -->|Deploy Capital| P3[Options Protocol]
     F -->|Deploy Capital| P4[Restaking Protocol]
     
-    %% Styling
-    classDef user fill:#ffd,stroke:#333,stroke-width:2px
-    classDef fund fill:#f9f,stroke:#333,stroke-width:2px
-    classDef operator fill:#bbf,stroke:#333,stroke-width:2px
-    classDef protocol fill:#fdb,stroke:#333,stroke-width:1px
+    %% Styling (dark-mode + light-mode friendly)
+    classDef user fill:#0b3b2e,stroke:#22c55e,color:#ffffff,stroke-width:1.2px
+    classDef fund fill:#1f2937,stroke:#a78bfa,color:#ffffff,stroke-width:1.2px
+    classDef operator fill:#334155,stroke:#94a3b8,color:#ffffff,stroke-width:1.2px
+    classDef protocol fill:#1e3a8a,stroke:#60a5fa,color:#ffffff,stroke-width:1.2px
     
     class U user
     class F fund
     class O operator
     class P1,P2,P3,P4 protocol
 ```
-
 
 A fund can have various use cases, including: 
 - Treasury Management
@@ -41,60 +40,63 @@ A fund can have various use cases, including:
 - Private Equity Vehicles
 - and more...
 
-
-## Module-Based Architecture
+## Fund Architecture
 ---
 
- Funds are modular, enabling various capabilities to be added as needed. These capabilities are integrated as modules—smart contracts that natively extend the Safe smart wallet. Some modules we like to use are:
+Funds in DAMM are designed to be **modular, composable, and extensible**. Each fund can be equipped with different capabilities depending on its purpose. Architecture can be understood in three layers: **structural design**, **cross-chain deployment**, and **modules**.
 
-- **DAMM Deposit Module**: Enables users to deposit and withdraw assets from the fund, issuing ERC-4626 compliant LP tokens in return. See [Deposit Module](./deposit_module.md) for more information.
-- **Zodiac Roles Module**: Enables permissioned transaction execution by operators on behalf of the fund. Allows for varying levels of access through the use of roles. See [Zodiac Roles Module](https://www.zodiac.wiki/documentation/roles-modifier) for more information.
-- **Palmera Safe Module**: Enables funds to be configured in a parent-child hierarchy where a parent fund directs the management of multiple child funds. See [Palmera Safe Module](https://docs.palmeradao.xyz/palmera-module-safe-hierarchical-structure) for more information.
+### Fund-to-Fund Structures
 
-
-> There are many more modules that can be mixed and matched to extend a fund's capabilities. 
-
-
-## Hierarchical Funds
----
-
-DAMM Funds are designed to be standalone investment vehicles but can be interconnected in various ways:
-
-- **Fund-to-Fund**: Funds can deposit capital into other funds, receiving LP tokens in return. For example, a high-risk fund focusing on long-tail assets might allocate a portion of its capital to a low-risk stablecoin fund for risk management.
-
-- **Parent-Child**: Using the [Palmera Safe module](https://docs.palmeradao.xyz/palmera-module-safe-hierarchical-structure), funds can be configured in a parent-child hierarchy where a root Safe manages multiple sub-Safes, enabling:
-  - Better risk encapsulation through isolation
-  - Cleaner separation of responsibilities across different strategies
-
-> A combination of both fund-to-fund and parent-child fund structures can be used to create a complex, multi-strategy fund structure.
+Funds can deposit capital into other funds, receiving LP tokens in return. For example, a high-risk fund focusing on long-tail assets might allocate a portion of its capital to a low-risk stablecoin fund for risk management or short-term liquidity.
 
 ```mermaid
 graph TD
-    %% Fund to Fund Investment
+    %% Fund-to-Fund Investment (dark-mode friendly)
     F1[High Risk Fund] -->|Deposits| F2[Stablecoin Fund]
     F1 -->|Holds| A1[Long Tail Assets]
     F1 -->|Holds| A2[LP Tokens]
-    
-    %% Parent-Child Structure Example
-    PS[Parent Safe] -->|Controls| S1[Sub-Safe 1]
-    PS -->|Controls| S2[Sub-Safe 2]
-    PS -->|Controls| S3[Sub-Safe 3]
-    
-    %% Styling
-    classDef fund fill:#f9f,stroke:#333,stroke-width:2px
-    classDef safe fill:#bbf,stroke:#333,stroke-width:2px
-    classDef asset fill:#dfd,stroke:#333,stroke-width:1px
-    
+
+    %% Styling (dark-mode friendly)
+    classDef fund fill:#1f2937,stroke:#94a3b8,color:#ffffff,stroke-width:1.2px
+    classDef asset fill:#0b3b2e,stroke:#22c55e,color:#ffffff,stroke-width:1.2px
+
     class F1,F2 fund
-    class PS,S1,S2,S3 safe
     class A1,A2 asset
 ```
 
+### Mother-Child Structures
 
-## Cross-Chain Capabilities
----
+Funds can also be structured in a mother-child hierarchy where one Safe (mother) directly owns and manages multiple sub-Safes (children). This enables:
+- Better risk encapsulation through isolation  
+- Cleaner separation of responsibilities across different strategies  
 
-Funds leverage Safe's native multi-chain infrastructure to enable truly cross-chain investment vehicles. Through Safe's deterministic deployment system, funds can be launched simultaneously across multiple blockchain networks while maintaining the same address on each chain.
+```mermaid
+graph TD
+    %% Mother-Child Structure with Per-Sub-Safe Strategies
+    MS[Mother Safe] -->|Controls| S1[Child Safe 1]
+    MS -->|Controls| S2[Child Safe 2]
+    MS -->|Controls| S3[Child Safe 3]
+
+    %% Each Child Safe runs an isolated strategy
+    S1 -->|Executes| STR1[Strategy: Market Making]
+    S2 -->|Executes| STR2[Strategy: Lending / Rates]
+    S3 -->|Executes| STR3[Strategy: Options / Vol]
+
+    %% Styling (dark-mode friendly)
+    classDef mother fill:#1f2937,stroke:#94a3b8,color:#ffffff,stroke-width:1.2px
+    classDef child fill:#334155,stroke:#a3a3a3,color:#ffffff,stroke-width:1.2px
+    classDef strategy fill:#0b3b2e,stroke:#22c55e,color:#ffffff,stroke-width:1.2px
+
+    class MS mother
+    class S1,S2,S3 child
+    class STR1,STR2,STR3 strategy
+```
+
+A combination of both fund-to-fund and mother-child structures can be used to create complex, multi-strategy funds.
+
+### Cross-Chain Deployment
+
+Funds leverage Safe’s native multi-chain infrastructure to enable truly cross-chain investment vehicles. Through Safe’s deterministic deployment system, funds can be launched simultaneously across multiple blockchain networks while maintaining the same address on each chain.
 
 ```mermaid
 graph TD
@@ -108,44 +110,35 @@ graph TD
     C2 -->|0xabc...| F2[Fund on Polygon]
     C3 -->|0xabc...| F3[Fund on Arbitrum]
 
-    
-    %% Styling
-    classDef deployer fill:#f9f,stroke:#333,stroke-width:2px
-    classDef chain fill:#dfd,stroke:#333,stroke-width:1px
-    classDef fund fill:#bbf,stroke:#333,stroke-width:1px
-    
+    %% Styling (dark-mode + light-mode friendly)
+    classDef deployer fill:#1f2937,stroke:#a78bfa,color:#ffffff,stroke-width:1.2px
+    classDef chain fill:#334155,stroke:#94a3b8,color:#ffffff,stroke-width:1.2px
+    classDef fund fill:#0b3b2e,stroke:#22c55e,color:#ffffff,stroke-width:1.2px
+
     class D deployer
     class C1,C2,C3 chain
     class F1,F2,F3 fund
 ```
 
 This cross-chain architecture, combined with bridge protocols, enables:
-- Unified fund management across multiple networks
-- Cross-chain capital deployment
-- Cross-chain communication between funds
+- Unified fund management across multiple networks  
+- Cross-chain capital deployment  
+- Cross-chain communication between funds  
 
-### Supported Networks
+### Modular Capabilities
 
-#### Mainnets
-- Aurora
-- Arbitrum
-- Avalanche
-- Base
-- Blast
-- BNB Chain
-- Celo
-- Ethereum
-- Gnosis Chain
-- Linea
-- Mantle
-- Optimism
-- Polygon
-- Polygon zkEVM
-- Scroll
-- World Chain
-- X Layer
-- zkSync Era
+Funds can extend their functionality by enabling specific modules. These modules can be included individually or in combination depending on the fund’s strategy.  
 
-#### Testnets
-- Base Sepolia
-- Ethereum Sepolia
+#### [Transaction Management](./zodiac_roles_module.md)
+
+Operators use the **Zodiac Roles Module** to transact on behalf of the fund. This allows them to operate the fund directly while staying within predefined permissions.  
+
+#### [Deposits and Withdrawals](./lagoon_deposit_module.md)
+
+The **Lagoon Deposit Module** allows investors to put money into a fund or withdraw their capital. Users receive shares in return for their deposits, and can later redeem those shares when they choose to exit.  
+
+#### [Transaction Delay](./zodiac_delay_module.md)
+
+For sensitive or high-risk operations, such as upgrades or configuration changes, funds employ the **Zodiac Delay Module**, which adds a mandatory delay before a transaction can be executed. This creates a review window for stakeholders and strengthens security around critical administrative actions.  
+
+> These structural designs, cross-chain deployments, and modular capabilities together define the architecture of DAMM Funds.  
