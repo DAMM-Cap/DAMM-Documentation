@@ -4,6 +4,7 @@ The **Lagoon Deposit Module**, developed by [Lagoon Finance](https://docs.lagoon
 
 While ERC-4626 defines a standard interface for tokenized vaults, **ERC-7540 introduces support for asynchronous deposits and withdrawals**, decoupling user requests from settlement. This design allows funds to batch process entries and exits, ensuring more efficient management, fairer share pricing, and stronger protections against front-running or volatility-driven mispricing.
 
+
 ## Asynchronous Deposits and Withdrawals
 
 Lagoon introduces a two-phase process for both deposits and withdrawals, separating the **request** from the **settlement**:
@@ -62,6 +63,10 @@ DAMM Funds leverage the Lagoon Deposit Module because it provides:
 - **Operational Modularity:** Lagoon is designed to integrate directly with Safe and Zodiac infrastructure while staying narrowly focused on deposits, withdrawals, and share pricing. It does not interfere with strategy execution or fund administration, ensuring a clean separation of responsibilities.  
 - **Proven Security:** Lagoon has undergone multiple audits and currently secures **hundreds of millions in TVL**, demonstrating its reliability and resilience in production environments.  
 
----
+## Additional Resources
 
-The Lagoon Deposit Module is therefore a foundational component of DAMM’s infrastructure, powering secure, fair, and efficient fund deposits and withdrawals.  
+For more information on the Lagoon Deposit Module, including technical specifications, integration guides, and developer references, visit the [official Lagoon Finance documentation](https://docs.lagoon.finance).  
+
+You can also explore:  
+- [ERC-7540 Standard](https://eips.ethereum.org/EIPS/eip-7540) — the underlying specification enabling asynchronous deposits and withdrawals.  
+- [ERC-4626 Standard](https://eips.ethereum.org/EIPS/eip-4626) — the base vault standard that ERC-7540 extends.  
