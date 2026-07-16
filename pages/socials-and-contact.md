@@ -1,0 +1,11 @@
+> For the complete documentation index, see [llms.txt](https://damm-capital.gitbook.io/damm-capital-docs/llms.txt). Markdown versions of documentation pages are available by appending `.md` to page URLs; this page is available as [Markdown](https://damm-capital.gitbook.io/damm-capital-docs/socials-and-contact.md).
+
+# Socials & Contact
+
+**Twitter / X**: <https://x.com/DAMM_Capital>
+
+**Telegram:** <https://t.me/+6ntEC5sU7tM4Yjlh>
+
+**Linkedin:** <https://www.linkedin.com/company/damm-capital>
+
+**Email:** *<team@dammcap.finance>*
