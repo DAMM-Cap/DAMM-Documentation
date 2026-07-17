@@ -2,28 +2,65 @@ import type {SidebarsConfig} from '@docusaurus/plugin-content-docs';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
-/**
- * Creating a sidebar enables you to:
- - create an ordered group of docs
- - render a sidebar for each doc of that group
- - provide next/previous navigation
-
- The sidebars can be generated from the filesystem, or explicitly defined here.
-
- Create as many sidebars as you want.
- */
 const sidebars: SidebarsConfig = {
   docs: [
     {
       type: 'doc',
-      id: 'intro',
+      id: 'overview',
+      label: 'Overview',
+    },
+    {
+      type: 'doc',
+      id: 'introduction',
       label: 'Introduction',
     },
     {
       type: 'category',
-      label: 'DAMM Toolkit',
-      items: ['toolkit/intro', 'toolkit/fund_architecture', 'toolkit/modular_capabilities', 'toolkit/cross_chain', 'toolkit/zodiac_roles_module', 'toolkit/lagoon_deposit_module'],
-    }
+      label: 'Funds Architecture (technical)',
+      items: [
+        'funds-architecture/funds-architecture',
+        'funds-architecture/lagoon-deposit-module',
+        'funds-architecture/zodiac-roles-module',
+        'funds-architecture/modular-capabilities',
+        'funds-architecture/cross-chain-deployment',
+        'funds-architecture/permission-helpers',
+      ],
+    },
+    {
+      type: 'category',
+      label: 'Funds',
+      items: [
+        'funds/funds',
+        'funds/dammstable-arbitrum',
+        'funds/dammeth',
+        'funds/dammbtc',
+      ],
+    },
+    {
+      type: 'doc',
+      id: 'security',
+      label: 'Security',
+    },
+    {
+      type: 'doc',
+      id: 'about-the-team',
+      label: 'About the Team',
+    },
+    {
+      type: 'doc',
+      id: 'media-kit',
+      label: 'Media Kit',
+    },
+    {
+      type: 'doc',
+      id: 'socials-contact',
+      label: 'Socials & Contact',
+    },
+    {
+      type: 'doc',
+      id: 'tutorials',
+      label: 'Tutorials',
+    },
   ],
 };
 
