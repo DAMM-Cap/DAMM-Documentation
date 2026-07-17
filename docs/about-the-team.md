@@ -29,3 +29,9 @@ As the long-time Treasury Manager at [Kleros](https://kleros.io/), Juan has over
 He's also deeply connected in the crypto ecosystem, leveraging close relationships with top protocols, builders, and investors to access early insights, conduct deeper research, and consistently generate alpha.
 
 Additionally, he pioneered [SAFU,](https://x.com/JuanSamitier) a restaking-based insurance framework, and [Fantasy Tier](https://x.com/fantasy_tier), a composable infrastructure for on-chain fantasy gaming, both deeply integrated into Ethereum-native rails.
+
+[**Bautista Chasco, Quant**](https://x.com/chasquitox)
+
+Chasco is a mechanical engineer with a master's in robotics who previously worked on satellite microcontrollers.
+
+At DAMM, he's a quant helping build the algorithms that run capital—designing and back-testing the models behind the funds' capital-allocation and market-making strategies.

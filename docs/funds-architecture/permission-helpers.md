@@ -18,3 +18,5 @@ Our Permission Helpers act as **calldata struct decoders**, enabling precise tra
 Repo: [https://github.com/DAMM-Cap/UniswapV4-Zodiac-Roles](https://github.com/DAMM-Cap/UniswapV4-Zodiac-Roles)
 
 Audit Report: [https://github.com/DAMM-Cap/UniswapV4-Zodiac-Roles/tree/main/audits](https://github.com/DAMM-Cap/UniswapV4-Zodiac-Roles/tree/main/audits)
+
+For a deeper walkthrough of the approach, read our research article: [Providing Liquidity on Uniswap V4 While Preserving Self-Custody](https://dammcap.finance/research/uniswap-v4-zodiac-roles-verifiers/).

@@ -56,11 +56,6 @@ const sidebars: SidebarsConfig = {
       id: 'socials-contact',
       label: 'Socials & Contact',
     },
-    {
-      type: 'doc',
-      id: 'tutorials',
-      label: 'Tutorials',
-    },
   ],
 };
 
