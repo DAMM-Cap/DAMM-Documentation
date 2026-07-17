@@ -54,6 +54,11 @@ const config: Config = {
           label: 'Documentation',
         },
         {
+          href: 'https://dammcap.finance/research',
+          label: 'Research',
+          position: 'left',
+        },
+        {
           href: 'https://github.com/DAMM-Cap',
           label: 'GitHub',
           position: 'right',
