@@ -1,0 +1,105 @@
+---
+id: dammbtc
+title: "DAMMbtc"
+sidebar_position: 4
+---
+
+import {VaultMeta} from '@site/src/components/IntegrationsMeta';
+
+# DAMMbtc — API access
+
+Fetch live and historical data for the **DAMM Bitcoin Fund** from the
+Lagoon API. See [Integrations](./index.mdx) for the endpoint, conventions, and
+response shapes shared by all funds.
+
+<VaultMeta
+  items={[
+    {
+      k: 'Vault address',
+      v: '0x7ededf832b5c9d8afa8f7365936100581a6db756',
+      href: 'https://etherscan.io/address/0x7ededf832b5c9d8afa8f7365936100581a6db756',
+      copy: '0x7ededf832b5c9d8afa8f7365936100581a6db756',
+    },
+    {k: 'chainId', v: '1 · Ethereum'},
+    {k: 'Asset', v: 'WBTC (8 decimals)'},
+    {k: 'Curator', v: 'DAMM Capital'},
+    {k: 'Access', v: 'Whitelist'},
+    {
+      k: 'Invest',
+      v: 'app.lagoon.finance',
+      href: 'https://app.lagoon.finance/vault/1/0x7ededf832b5c9d8afa8f7365936100581a6db756',
+    },
+  ]}
+/>
+
+:::info Whitelist required to transact
+Reading this data is open to everyone. Depositing into or redeeming from the
+vault requires your address to be whitelisted — request access via
+[team@dammcap.finance](mailto:team@dammcap.finance) or our
+[Telegram group](https://t.me/+6ntEC5sU7tM4Yjlh).
+:::
+
+:::note Recently launched
+DAMMbtc went live on Ethereum mainnet on **2026-07-30**. Until settlements
+accumulate, `stateHistory` is sparse and the APR windows (`weeklyApr`,
+`monthlyApr`, `yearlyApr`) return `null`.
+:::
+
+## 1. Core state, fees & APRs
+
+```bash
+curl -s -X POST https://api.lagoon.finance/query \
+  -H "Content-Type: application/json" \
+  -d '{"query":"{ vaultByAddress(address:\"0x7ededf832b5c9d8afa8f7365936100581a6db756\", chainId:1) { name symbol asset { symbol priceUsd } curators { name } state { totalAssets totalAssetsUsd totalSupply pricePerShare pricePerShareUsd managementFee performanceFee protocolFee entryRate exitRate isPaused syncMode accessMode weeklyApr { twrrNetApr linearNetApr } monthlyApr { twrrNetApr } yearlyApr { twrrNetApr } } } }"}'
+```
+
+- **Monetary fields are dual**: raw on-chain `BigInt` (`totalAssets`,
+  `pricePerShare` — WBTC has 8 decimals) plus a convenience `…Usd: Float`.
+  DAMMbtc is a BTC-denominated fund: track performance in the native series
+  (`pricePerShare`), not the USD variants.
+- **Fees are basis points** (1e4 = 100%). Current configuration:
+  `managementFee: 0`, `performanceFee: 1500` = 15%, `protocolFee: 1000` = 10%
+  (of collected fees), no entry/exit fees.
+- `weeklyApr.twrrNetApr` = time-weighted net APR; `linearNetApr` = simple.
+  A `null` APR means insufficient recent settlement data for that window.
+
+## 2. Historical time series
+
+`stateHistory` returns an ascending series of `{x: unixSeconds, y: value}`
+points (max 1000 per field). Pass an optional
+`options: {startTimestamp, endTimestamp}` window.
+
+```bash
+curl -s -X POST https://api.lagoon.finance/query \
+  -H "Content-Type: application/json" \
+  -d '{"query":"{ vaultByAddress(address:\"0x7ededf832b5c9d8afa8f7365936100581a6db756\", chainId:1) { stateHistory { pricePerShare(options:{}) { x y } totalAssetsUsd(options:{}) { x y } } } }"}'
+```
+
+Other series under `stateHistory`: `totalAssets`, `totalSupply`,
+`pricePerShareUsd`, `managementFee`, `performanceFee`, `protocolFee`,
+`highWaterMark`. One point lands per settlement (roughly weekly).
+
+## 3. Transaction / event history
+
+Every indexed event — deposits, redeem requests, settlements, fees taken,
+rate updates. Filter with suffix operators (`_eq`, `_in`, `_gte`, …);
+paginate with `first` + `skip`.
+
+```bash
+curl -s -X POST https://api.lagoon.finance/query \
+  -H "Content-Type: application/json" \
+  -d '{"query":"{ transactions(first:10, skip:0, orderBy:timestamp, orderDirection:desc, where:{ vault_in:[\"0x7ededf832b5c9d8afa8f7365936100581a6db756\"], chainId_eq:1 }) { pageInfo { totalCount } items { type timestamp hash blockNumber } } }"}'
+```
+
+- Useful `where` filters: `type_in: [Deposit, SettleDeposit, FeeTaken,
+  RedeemRequest]`, `timestamp_gte`, `owner_in`, `controller_in`.
+- A depositor's money leaves their wallet at `DepositRequest`; the `Deposit`
+  event fires later, at claim time. Date flows from `DepositRequest`.
+- A redeem's share burn appears as a `Transfer` to the vault's pending silo
+  (`0xb72951329b41fa52d83e941cb5cb8555d90f1704`), not to a third-party
+  counterparty.
+
+## Notes
+
+- DAMMbtc initially allocates to the [DAMM BTC Algo Fund](./dammbtcalgo.mdx);
+  fees are charged once, at the DAMMbtc level.
