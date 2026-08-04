@@ -1,0 +1,116 @@
+---
+id: integrations
+title: Integrations
+sidebar_position: 1
+---
+
+import {ApiPills} from '@site/src/components/IntegrationsMeta';
+
+# Integrations
+
+Everything you need to integrate DAMM funds into your product: live NAV, TVL,
+fees, APRs, and full transaction history for every fund — served by the
+**Lagoon API**, a public, unauthenticated GraphQL endpoint that indexes every
+Lagoon vault. All DAMM funds are Lagoon vaults, so it's all queryable.
+
+<ApiPills
+  items={[
+    {label: 'Endpoint', value: 'https://api.lagoon.finance/query'},
+    {label: 'Method', value: 'POST · application/json'},
+    {label: 'Auth', value: 'none'},
+    {label: 'CORS', value: 'open (*)'},
+  ]}
+/>
+
+:::warning Reading is open — transacting requires whitelisting
+All the data below is public and requires no API key. **Interacting with the
+vaults (depositing or redeeming) is restricted to whitelisted addresses.**
+To get whitelisted, contact us at
+[team@dammcap.finance](mailto:team@dammcap.finance) or on our
+[Telegram group](https://t.me/+6ntEC5sU7tM4Yjlh).
+:::
+
+## The DAMM funds
+
+| Fund | Chain | Asset | Vault address | API guide |
+|---|---|---|---|---|
+| DAMM Stablecoin Fund | Arbitrum (42161) | USDT0 | [`0xe5d6…5176`](https://arbiscan.io/address/0xe5d6eb448ac5a762c1ebe8cd1692b9cd08025176) | [DAMMstable](./dammstable.mdx) |
+| DAMM Ethereum Fund | Ethereum (1) | WETH | [`0x3c63…e355`](https://etherscan.io/address/0x3c63f3ce75dc83735745cf4e86b63414d95ee355) | [DAMMeth](./dammeth.mdx) |
+| DAMM Bitcoin Fund | Ethereum (1) | WBTC | [`0x7ede…b756`](https://etherscan.io/address/0x7ededf832b5c9d8afa8f7365936100581a6db756) | [DAMMbtc](./dammbtc.mdx) |
+| DAMM ETH Algo Fund | Ethereum (1) | WETH | [`0xe6f4…8d28`](https://etherscan.io/address/0xe6f4bc20f08125818baaac57e6f398ffadcb8d28) | [DAMMethAlgo](./dammethalgo.mdx) |
+| DAMM BTC Algo Fund | Ethereum (1) | WBTC | [`0x9c41…79b9`](https://etherscan.io/address/0x9c414834a4a85aa15ec461edcd8cc9dd8ec979b9) | [DAMMbtcAlgo](./dammbtcalgo.mdx) |
+
+:::danger Pin the exact address and chainId — never resolve by name
+Lagoon's factory is permissionless, so searching vaults by name or symbol
+returns dozens of zero-TVL test deploys sharing our fund names (a search for
+"dammstable" returns 65 hits). **Always pin the exact `address` + `chainId`
+from the table above.**
+:::
+
+## Quick start
+
+Fetch DAMMstable's live state in one request — works from a terminal, a
+browser, or any HTTP client:
+
+```bash
+curl -s -X POST https://api.lagoon.finance/query \
+  -H "Content-Type: application/json" \
+  -d '{"query":"{ vaultByAddress(address:\"0xe5d6eb448ac5a762c1ebe8cd1692b9cd08025176\", chainId:42161) { name symbol state { totalAssetsUsd pricePerShare yearlyApr { twrrNetApr } } } }"}'
+```
+
+Or from JavaScript (CORS is open, so this runs directly in the browser):
+
+```js
+const res = await fetch('https://api.lagoon.finance/query', {
+  method: 'POST',
+  headers: {'Content-Type': 'application/json'},
+  body: JSON.stringify({
+    query: `{
+      vaultByAddress(address: "0xe5d6eb448ac5a762c1ebe8cd1692b9cd08025176", chainId: 42161) {
+        name
+        state { totalAssetsUsd pricePerShareUsd yearlyApr { twrrNetApr } }
+      }
+    }`,
+  }),
+});
+const {data} = await res.json();
+```
+
+Each fund page documents the three query families in depth — current state,
+historical time series, and transaction history — with copy-paste examples
+already pinned to that fund's address.
+
+## Conventions that apply to every fund
+
+- **Monetary fields are dual**: raw on-chain `BigInt` values
+  (`totalAssets`, `pricePerShare` — denominated in the vault asset's decimals)
+  plus a convenience `…Usd: Float` variant.
+- **Fees are basis points** (1e4 = 100%): `performanceFee: 1500` = 15%.
+- **Time-series points** are `{x, y}` pairs (`x` = unix seconds, `y` nullable),
+  ascending, **max 1000 points per field**. Window with
+  `options: {startTimestamp, endTimestamp}`.
+- **Settlement cadence is roughly weekly**: one `stateHistory` point per
+  `TotalAssetsUpdated` settlement. The API's granularity equals indexing the
+  on-chain events directly.
+- **APRs**: `twrrNetApr` is the time-weighted net APR for the window
+  (`weeklyApr` / `monthlyApr` / `yearlyApr`); `linearNetApr` is the simple
+  variant. A `null` APR means insufficient recent settlement data for that
+  window.
+- **Pagination**: list queries return
+  `{items {…}, pageInfo {totalCount hasNextPage skip limit count}}` —
+  `totalCount` lives under `pageInfo`.
+- **Filters** use suffix operators (`_eq`, `_in`, `_gte`, …); `orderBy` /
+  `orderDirection` are unquoted enums (`orderBy: timestamp, orderDirection: desc`).
+- **The schema is fully introspectable** — point any GraphQL client at the
+  endpoint and explore.
+
+## Response-shape quick reference
+
+| Thing | Shape / rule |
+|---|---|
+| Pagination | `{ items { … }, pageInfo { totalCount hasNextPage skip limit count } }` |
+| Time-series point | `{ x, y }` (x = unix seconds) — not `{ timestamp, value }` |
+| `vaultByAddress` args | `address: Address!` (not `String!`), `chainId: Int!` |
+| Fees | basis points (1e4 = 100%) |
+| Shares | 18 decimals; assets use the underlying asset's decimals |
+| Schema | fully introspectable (`__type(name: …)`) |

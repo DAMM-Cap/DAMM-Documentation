@@ -37,6 +37,18 @@ const sidebars: SidebarsConfig = {
       ],
     },
     {
+      type: 'category',
+      label: 'Integrations',
+      link: {type: 'doc', id: 'integrations/integrations'},
+      items: [
+        'integrations/dammstable',
+        'integrations/dammeth',
+        'integrations/dammbtc',
+        'integrations/dammethalgo',
+        'integrations/dammbtcalgo',
+      ],
+    },
+    {
       type: 'doc',
       id: 'security',
       label: 'Security',

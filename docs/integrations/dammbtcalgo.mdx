@@ -1,0 +1,93 @@
+---
+id: dammbtcalgo
+title: "DAMMbtcAlgo"
+sidebar_position: 6
+---
+
+import {VaultMeta} from '@site/src/components/IntegrationsMeta';
+
+# DAMMbtcAlgo — API access
+
+Fetch live and historical data for the **DAMM BTC Algo Fund** — an
+algorithmic, rule-based liquidity-provision fund — from the Lagoon API. See
+[Integrations](./index.mdx) for the endpoint, conventions, and response shapes shared
+by all funds.
+
+<VaultMeta
+  items={[
+    {
+      k: 'Vault address',
+      v: '0x9c414834a4a85aa15ec461edcd8cc9dd8ec979b9',
+      href: 'https://etherscan.io/address/0x9c414834a4a85aa15ec461edcd8cc9dd8ec979b9',
+      copy: '0x9c414834a4a85aa15ec461edcd8cc9dd8ec979b9',
+    },
+    {k: 'chainId', v: '1 · Ethereum'},
+    {k: 'Asset', v: 'WBTC (8 decimals)'},
+    {k: 'Curator', v: 'DAMM Capital'},
+    {k: 'Access', v: 'Whitelist (DAMMbtc only)'},
+  ]}
+/>
+
+:::info Not directly investable
+DAMMbtcAlgo is whitelist-gated and currently admits **only the
+[DAMMbtc](./dammbtc.mdx) fund** as a depositor — that's why its management and
+performance fees are 0%: fees are charged once, at the DAMMbtc level. To get
+exposure, invest through DAMMbtc (whitelisting required — contact
+[team@dammcap.finance](mailto:team@dammcap.finance) or our
+[Telegram group](https://t.me/+6ntEC5sU7tM4Yjlh)). Its data remains fully
+readable via the API.
+:::
+
+## 1. Core state, fees & APRs
+
+```bash
+curl -s -X POST https://api.lagoon.finance/query \
+  -H "Content-Type: application/json" \
+  -d '{"query":"{ vaultByAddress(address:\"0x9c414834a4a85aa15ec461edcd8cc9dd8ec979b9\", chainId:1) { name symbol asset { symbol priceUsd } curators { name } state { totalAssets totalAssetsUsd totalSupply pricePerShare pricePerShareUsd managementFee performanceFee protocolFee entryRate exitRate isPaused syncMode accessMode weeklyApr { twrrNetApr linearNetApr } monthlyApr { twrrNetApr } yearlyApr { twrrNetApr } } } }"}'
+```
+
+- **Monetary fields are dual**: raw on-chain `BigInt` (`totalAssets`,
+  `pricePerShare` — WBTC has 8 decimals) plus a convenience `…Usd: Float`.
+  Track performance in the native series (`pricePerShare`), not the USD
+  variants.
+- **Fees are basis points** (1e4 = 100%). Current configuration:
+  `managementFee: 0`, `performanceFee: 0` (fees are charged at the
+  [DAMMbtc](./dammbtc.mdx) level), `protocolFee: 1000` = 10% (of collected fees).
+- `weeklyApr.twrrNetApr` = time-weighted net APR; `linearNetApr` = simple.
+  A `null` APR means insufficient recent settlement data for that window.
+
+## 2. Historical time series
+
+`stateHistory` returns an ascending series of `{x: unixSeconds, y: value}`
+points (max 1000 per field). Pass an optional
+`options: {startTimestamp, endTimestamp}` window.
+
+```bash
+curl -s -X POST https://api.lagoon.finance/query \
+  -H "Content-Type: application/json" \
+  -d '{"query":"{ vaultByAddress(address:\"0x9c414834a4a85aa15ec461edcd8cc9dd8ec979b9\", chainId:1) { stateHistory { pricePerShare(options:{}) { x y } totalAssetsUsd(options:{}) { x y } } } }"}'
+```
+
+Other series under `stateHistory`: `totalAssets`, `totalSupply`,
+`pricePerShareUsd`, `managementFee`, `performanceFee`, `protocolFee`,
+`highWaterMark`. One point lands per settlement (roughly weekly).
+
+## 3. Transaction / event history
+
+Every indexed event — deposits, redeem requests, settlements, fees taken,
+rate updates. Filter with suffix operators (`_eq`, `_in`, `_gte`, …);
+paginate with `first` + `skip`.
+
+```bash
+curl -s -X POST https://api.lagoon.finance/query \
+  -H "Content-Type: application/json" \
+  -d '{"query":"{ transactions(first:10, skip:0, orderBy:timestamp, orderDirection:desc, where:{ vault_in:[\"0x9c414834a4a85aa15ec461edcd8cc9dd8ec979b9\"], chainId_eq:1 }) { pageInfo { totalCount } items { type timestamp hash blockNumber } } }"}'
+```
+
+- Useful `where` filters: `type_in: [Deposit, SettleDeposit, FeeTaken,
+  RedeemRequest]`, `timestamp_gte`, `owner_in`, `controller_in`.
+- A depositor's money leaves their wallet at `DepositRequest`; the `Deposit`
+  event fires later, at claim time. Date flows from `DepositRequest`.
+- A redeem's share burn appears as a `Transfer` to the vault's pending silo
+  (`0x9b326b6d89b93aad46b5e998c300b458924469f9`), not to a third-party
+  counterparty.
