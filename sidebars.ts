@@ -29,8 +29,8 @@ const sidebars: SidebarsConfig = {
     {
       type: 'category',
       label: 'Funds',
+      link: {type: 'doc', id: 'funds/funds'},
       items: [
-        'funds/funds',
         'funds/dammstable-arbitrum',
         'funds/dammeth',
         'funds/dammbtc',

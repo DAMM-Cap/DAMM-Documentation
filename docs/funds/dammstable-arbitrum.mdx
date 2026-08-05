@@ -1,0 +1,112 @@
+---
+id: dammstable-arbitrum
+title: "DAMMstable | Arbitrum"
+sidebar_position: 2
+---
+
+import {VaultMeta} from '@site/src/components/IntegrationsMeta';
+
+# DAMMstable — DAMM Stablecoin Fund
+
+DAMMstable is a market-neutral USD fund designed to deliver risk-adjusted
+returns by combining decentralized market-making models with diversified
+strategies across battle-tested DeFi infrastructure.
+
+<VaultMeta
+  items={[
+    {
+      k: 'Vault address',
+      v: '0xe5d6eb448ac5a762c1ebe8cd1692b9cd08025176',
+      href: 'https://arbiscan.io/address/0xe5d6eb448ac5a762c1ebe8cd1692b9cd08025176',
+      copy: '0xe5d6eb448ac5a762c1ebe8cd1692b9cd08025176',
+    },
+    {k: 'Chain', v: 'Arbitrum (42161)'},
+    {k: 'Denomination', v: 'USD · USDT0'},
+    {k: 'Liquidity', v: 'T+1 requests'},
+    {k: 'Access', v: 'Whitelist'},
+    {
+      k: 'Invest',
+      v: 'app.lagoon.finance',
+      href: 'https://app.lagoon.finance/vault/42161/0xe5d6eb448ac5a762c1ebe8cd1692b9cd08025176',
+    },
+  ]}
+/>
+
+## Objective
+
+The fund actively allocates capital across a range of yield optimization
+techniques, aiming to maximize nominal returns on stablecoins while
+maintaining **zero historical drawdowns on the fund's price per share**.
+
+- **Income generation** — diversified DeFi yield: algorithmic liquidity
+  provision, overcollateralized lending, and fixed-income strategies.
+- **Capital preservation** — allocations restricted to blue-chip protocols
+  with adequate liquidity, solvency, and operational robustness; on-chain
+  permission policies constrain every action the fund can take.
+- **Diversification** — exposure spread across protocols, position types, and
+  chains to reduce reliance on any single source of return or risk.
+- **Liquidity** — request-based subscriptions and redemptions with T+1
+  processing when needed.
+
+## Strategy
+
+DAMMstable deploys capital through a diversified set of strategies:
+
+- **Algorithmic liquidity provision** on DEXes like Uniswap, powered by
+  in-house models.
+- **Overcollateralized lending** via trusted on-chain credit protocols.
+- **Fixed income** using zero-coupon bonds and fixed-rate lending protocols.
+
+The result is a transparent, partially algorithmic, discretionary capital
+allocation model — built to preserve principal while compounding stable,
+on-chain-native yield across blue-chip DeFi ecosystems.
+
+The fund's original fully algorithmic mandate (now one strategy within the
+fund) was the subject of an ecosystem-impact report prepared for the Uniswap
+Foundation: [DAMMstable Ecosystem Impact](https://bubble-scilla-7a7.notion.site/DAMMstable-Ecosystem-Impact-264fb660f37c8019a8abf5eec16e8b26).
+
+## Terms & fees
+
+| Term | Value |
+|---|---|
+| Denomination asset | USDT0 (6 decimals) |
+| Structure | Lagoon vault + Safe smart accounts under Zodiac Roles policies |
+| Subscriptions / redemptions | Request-based (asynchronous), settled against NAV |
+| Liquidity | T+1, if needed |
+| Management fee | 0.25% |
+| Performance fee | 17.5% |
+| Entry / exit fees | None |
+| Access | Whitelisted investors only |
+
+Current fee configuration is always readable on-chain and via the
+[Lagoon API](../integrations/dammstable.mdx) (`managementFee`,
+`performanceFee`, in basis points).
+
+## Access
+
+DAMMstable is available to whitelisted investors only. Request access via
+[team@dammcap.finance](mailto:team@dammcap.finance) or our
+[Telegram group](https://t.me/+6ntEC5sU7tM4Yjlh), then invest through the
+[Lagoon app](https://app.lagoon.finance/vault/42161/0xe5d6eb448ac5a762c1ebe8cd1692b9cd08025176).
+
+**Your position** — connect your wallet on the fund's
+[Lagoon app page](https://app.lagoon.finance/vault/42161/0xe5d6eb448ac5a762c1ebe8cd1692b9cd08025176)
+to see your shares, their current value, and pending requests. Fund-level NAV
+and performance are published on [dammcap.finance](https://dammcap.finance).
+
+## Fund data & integrations
+
+Everything the fund does is public and queryable without an API key — share
+price, TVL, fees, APRs, and full transaction history — through Lagoon's
+GraphQL API, pinned to the vault address and chain above.
+
+- **[DAMMstable API guide](../integrations/dammstable.mdx)** — copy-paste
+  queries for this fund (current state, historical time series, transaction
+  ledger) and its data caveats.
+- **[Integrations overview](../integrations/index.mdx)** — endpoint,
+  conventions, and response shapes shared by all DAMM funds.
+- **[Lagoon documentation](https://docs.lagoon.finance)** — the vault layer
+  itself: [deposit & redemption flows](https://docs.lagoon.finance/vault/deposit-and-withdraw-flows),
+  [vault valuation](https://docs.lagoon.finance/vault/vault-valuation),
+  [fees](https://docs.lagoon.finance/vault/fees), and
+  [roles](https://docs.lagoon.finance/vault/roles-and-capacities).

@@ -1,0 +1,107 @@
+---
+id: dammbtc
+title: DAMMbtc
+sidebar_position: 4
+---
+
+import {VaultMeta} from '@site/src/components/IntegrationsMeta';
+
+# DAMMbtc — DAMM Bitcoin Fund
+
+DAMMbtc is a BTC-denominated fund designed to generate Bitcoin-native yield
+by deploying WBTC into rule-based, market-neutral strategies on Ethereum —
+capturing on-chain yield while preserving BTC as the unit of account.
+
+<VaultMeta
+  items={[
+    {
+      k: 'Vault address',
+      v: '0x7ededf832b5c9d8afa8f7365936100581a6db756',
+      href: 'https://etherscan.io/address/0x7ededf832b5c9d8afa8f7365936100581a6db756',
+      copy: '0x7ededf832b5c9d8afa8f7365936100581a6db756',
+    },
+    {k: 'Chain', v: 'Ethereum (1)'},
+    {k: 'Denomination', v: 'BTC · WBTC'},
+    {k: 'Launched', v: 'July 2026'},
+    {k: 'Access', v: 'Whitelist'},
+    {
+      k: 'Invest',
+      v: 'app.lagoon.finance',
+      href: 'https://app.lagoon.finance/vault/1/0x7ededf832b5c9d8afa8f7365936100581a6db756',
+    },
+  ]}
+/>
+
+## Objective
+
+- **BTC-native income** — returns are generated and measured in BTC; track
+  performance in the fund's native share price, not its USD value.
+- **Rule-based, market-neutral execution** — concentrated-liquidity market
+  making between WBTC and highly liquid BTC-pegged tokens; no leverage, no
+  directional exposure beyond BTC itself.
+- **On-chain enforced mandate** — the fund's allocation path is constrained
+  by on-chain permission policies (Zodiac Roles); capital can only flow into
+  the pre-approved strategy set.
+- **Fees charged once** — the fund allocates into DAMM's BTC execution
+  vehicle, which charges no fees of its own; investors pay fees only at the
+  DAMMbtc level.
+
+:::note
+Since BTC is non-native to Ethereum, BTC-denominated DeFi strategies
+inherently carry additional wrapped-asset risk compared to ETH- or
+USD-denominated equivalents.
+:::
+
+## Strategy
+
+DAMMbtc currently allocates to the **DAMM BTC Algo Fund** — a rule-based
+concentrated-liquidity market-making strategy between WBTC and highly liquid
+BTC tokens (such as cbBTC and tBTC) on blue-chip DEXes, run per-pair in
+isolated execution accounts. The mandate is designed to scale into carry
+trades against highly liquid, conservative assets on blue-chip protocols as
+the fund grows.
+
+## Terms & fees
+
+| Term | Value |
+|---|---|
+| Denomination asset | WBTC (8 decimals) |
+| Structure | Lagoon vault + Safe smart accounts under Zodiac Roles policies |
+| Subscriptions / redemptions | Request-based (asynchronous), settled against NAV |
+| Management fee | 0% |
+| Performance fee | 15% |
+| Entry / exit fees | None |
+| Access | Whitelisted investors only |
+
+Current fee configuration is always readable on-chain and via the
+[Lagoon API](../integrations/dammbtc.mdx) (`managementFee`, `performanceFee`,
+in basis points).
+
+## Access
+
+DAMMbtc is available to whitelisted investors only. Request access via
+[team@dammcap.finance](mailto:team@dammcap.finance) or our
+[Telegram group](https://t.me/+6ntEC5sU7tM4Yjlh), then invest through the
+[Lagoon app](https://app.lagoon.finance/vault/1/0x7ededf832b5c9d8afa8f7365936100581a6db756).
+
+**Your position** — connect your wallet on the fund's
+[Lagoon app page](https://app.lagoon.finance/vault/1/0x7ededf832b5c9d8afa8f7365936100581a6db756)
+to see your shares, their current value, and pending requests. Fund-level NAV
+and performance are published on [dammcap.finance](https://dammcap.finance).
+
+## Fund data & integrations
+
+Everything the fund does is public and queryable without an API key — share
+price, TVL, fees, APRs, and full transaction history — through Lagoon's
+GraphQL API, pinned to the vault address and chain above.
+
+- **[DAMMbtc API guide](../integrations/dammbtc.mdx)** — copy-paste queries
+  for this fund; note the fund launched in July 2026, so historical series
+  are still short.
+- **[Integrations overview](../integrations/index.mdx)** — endpoint,
+  conventions, and response shapes shared by all DAMM funds.
+- **[Lagoon documentation](https://docs.lagoon.finance)** — the vault layer
+  itself: [deposit & redemption flows](https://docs.lagoon.finance/vault/deposit-and-withdraw-flows),
+  [vault valuation](https://docs.lagoon.finance/vault/vault-valuation),
+  [fees](https://docs.lagoon.finance/vault/fees), and
+  [roles](https://docs.lagoon.finance/vault/roles-and-capacities).
