@@ -1,0 +1,110 @@
+---
+id: dammeth
+title: DAMMeth
+sidebar_position: 3
+---
+
+import {VaultMeta} from '@site/src/components/IntegrationsMeta';
+
+# DAMMeth — DAMM Ethereum Fund
+
+DAMMeth is a market-neutral, ETH-denominated fund designed to deliver
+risk-adjusted returns by combining decentralized market-making models with
+diversified strategies across battle-tested DeFi infrastructure.
+
+<VaultMeta
+  items={[
+    {
+      k: 'Vault address',
+      v: '0x3c63f3ce75dc83735745cf4e86b63414d95ee355',
+      href: 'https://etherscan.io/address/0x3c63f3ce75dc83735745cf4e86b63414d95ee355',
+      copy: '0x3c63f3ce75dc83735745cf4e86b63414d95ee355',
+    },
+    {k: 'Chain', v: 'Ethereum (1)'},
+    {k: 'Denomination', v: 'ETH · WETH'},
+    {k: 'Liquidity', v: 'T+1 requests'},
+    {k: 'Access', v: 'Whitelist'},
+    {
+      k: 'Invest',
+      v: 'app.lagoon.finance',
+      href: 'https://app.lagoon.finance/vault/1/0x3c63f3ce75dc83735745cf4e86b63414d95ee355',
+    },
+  ]}
+/>
+
+## Objective
+
+The fund actively allocates capital across a range of yield optimization
+techniques, aiming to maximize nominal returns on Ether while maintaining
+**zero historical drawdowns on the fund's price per share** — preserving ETH
+as a long-term store of value while compounding sustainable, on-chain-native
+yield.
+
+- **ETH-native income** — returns are generated and measured in ETH; track
+  performance in the fund's native share price, not its USD value.
+- **Market-neutral** — correlated-pair strategies and delta-neutral
+  positioning; no directional exposure beyond ETH itself.
+- **Capital preservation** — blue-chip protocols only, with on-chain
+  permission policies constraining every action the fund can take.
+- **Diversification** — exposure spread across protocols and position types.
+
+## Strategy
+
+<img src="/img/dammeth-fund.png" alt="DAMMeth fund" width="340" />
+
+DAMMeth deploys capital through a diversified set of strategies:
+
+- **Algorithmic liquidity provision** using LSTs and LRTs on correlated pairs
+  via DEXes like Uniswap, powered by proprietary models.
+- **Overcollateralized lending** on trusted on-chain credit markets.
+- **Fixed income** using zero-coupon bonds and fixed-rate protocols.
+- **LST/LRT arbitrage** and redemption-based opportunities.
+- **Liquid staking** for additional ETH-native yield.
+
+The result is a transparent, partially algorithmic, discretionary capital
+allocation model across blue-chip DeFi ecosystems.
+
+## Terms & fees
+
+| Term | Value |
+|---|---|
+| Denomination asset | WETH (18 decimals) |
+| Structure | Lagoon vault + Safe smart accounts under Zodiac Roles policies |
+| Subscriptions / redemptions | Request-based (asynchronous), settled against NAV |
+| Liquidity | T+1, if needed |
+| Management fee | 0% |
+| Performance fee | 15% |
+| Entry / exit fees | None |
+| Access | Whitelisted investors only |
+
+Current fee configuration is always readable on-chain and via the
+[Lagoon API](../integrations/dammeth.mdx) (`managementFee`, `performanceFee`,
+in basis points).
+
+## Access
+
+DAMMeth is available to whitelisted investors only. Request access via
+[team@dammcap.finance](mailto:team@dammcap.finance) or our
+[Telegram group](https://t.me/+6ntEC5sU7tM4Yjlh), then invest through the
+[Lagoon app](https://app.lagoon.finance/vault/1/0x3c63f3ce75dc83735745cf4e86b63414d95ee355).
+
+**Your position** — connect your wallet on the fund's
+[Lagoon app page](https://app.lagoon.finance/vault/1/0x3c63f3ce75dc83735745cf4e86b63414d95ee355)
+to see your shares, their current value, and pending requests. Fund-level NAV
+and performance are published on [dammcap.finance](https://dammcap.finance).
+
+## Fund data & integrations
+
+Everything the fund does is public and queryable without an API key — share
+price, TVL, fees, APRs, and full transaction history — through Lagoon's
+GraphQL API, pinned to the vault address and chain above.
+
+- **[DAMMeth API guide](../integrations/dammeth.mdx)** — copy-paste queries
+  for this fund (current state, historical time series, transaction ledger).
+- **[Integrations overview](../integrations/index.mdx)** — endpoint,
+  conventions, and response shapes shared by all DAMM funds.
+- **[Lagoon documentation](https://docs.lagoon.finance)** — the vault layer
+  itself: [deposit & redemption flows](https://docs.lagoon.finance/vault/deposit-and-withdraw-flows),
+  [vault valuation](https://docs.lagoon.finance/vault/vault-valuation),
+  [fees](https://docs.lagoon.finance/vault/fees), and
+  [roles](https://docs.lagoon.finance/vault/roles-and-capacities).
