@@ -49,7 +49,7 @@ fund names (for example, dozens for "dammstable"). **Always pin the exact
 ## Quick start
 
 Fetch DAMMstable's live state in one request. It works from a terminal, a
-browser or any HTTP client:
+browser or any HTTP client (some clients need an explicit `User-Agent` header):
 
 ```bash
 curl -s -X POST https://api.lagoon.finance/query \
@@ -86,7 +86,7 @@ already pinned to that fund's address.
   plus a convenience `…Usd: Float` variant.
 - **Fees are basis points** (1e4 = 100%): `performanceFee: 1500` = 15%.
 - **Time-series points** are `{x, y}` pairs (`x` = unix seconds, `y` nullable),
-  ascending, **max 1000 points per field**. Window with
+  ascending, **max 1000 points per field** (at time of writing). Window with
   `options: {startTimestamp, endTimestamp}`.
 - **Settlement cadence is irregular**: one `stateHistory` point per
   `TotalAssetsUpdated` settlement. Settlements are triggered by the fund's

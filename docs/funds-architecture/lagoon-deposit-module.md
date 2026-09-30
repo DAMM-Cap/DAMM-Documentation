@@ -23,7 +23,7 @@ Lagoon splits both deposits and withdrawals into two phases: the **request** and
 
 ### 2. Settlement and claim phase
 
-- **Settlement.** An oracle provides the fund's net asset value (NAV). The fund manager chooses the oracle. It can be a **centralized oracle** run by the manager or a **decentralized oracle** run by an external network. Settlement frequency is **not fixed** either. The fund operator decides how often to update NAV and process requests: once a day, several times a day, or even every few minutes, depending on the fund's design.
+- **Settlement.** An oracle provides the fund's net asset value (NAV). The fund manager chooses the oracle. It can be a **centralized oracle** run by the manager or a **decentralized oracle** run by an external network. Settlement frequency is **not fixed** either. The fund operator decides how often to update NAV and process requests: once a day, several times a day, or even every few minutes, depending on the fund's design. DAMM's funds settle periodically on no fixed schedule, sometimes days to weeks apart; contact team@dammcap.finance for timing.
 - **Claiming.** After settlement, users claim their shares (for deposits) or assets (for withdrawals). Until claimed, they are held by the vault contract for you, with no time limit. **Settled shares keep earning yield while they wait to be claimed**, so claiming late costs nothing. Settled withdrawal assets are fixed at the settlement NAV.
 
 ### Why this model

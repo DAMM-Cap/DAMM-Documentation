@@ -96,7 +96,8 @@ curl -s -X POST https://api.lagoon.finance/query \
 
 ## Notes
 
-- DAMMeth manages capital from a single Safe, so Lagoon's `composition` feed
-  reconciles cleanly with `state.totalAssetsUsd` (unlike
+- DAMMeth holds its positions in one Safe (including its DAMMethAlgo shares), so
+  Lagoon's `composition` feed reconciles closely (~97% at time of writing) with
+  `state.totalAssetsUsd` (unlike
   [DAMMstable](./dammstable.mdx) and [DAMMethAlgo](./dammethalgo.mdx), where
   composition is partial).

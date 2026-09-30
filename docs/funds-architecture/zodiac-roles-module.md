@@ -18,7 +18,7 @@ At DAMM, the Roles Module gives operators permission to allocate assets and inte
 
 DAMM funds use [Zodiac Roles Module V2](https://github.com/gnosisguild/zodiac-modifier-roles), which adds features and security over earlier versions. Security firms including G0 Group and Omniscia have audited it several times. All audit reports are in the [project's documentation repository](https://github.com/gnosisguild/zodiac-modifier-roles/tree/main/packages/evm/docs).
 
-The module is widely used. Leading DeFi fund managers such as [Karpatkey](https://karpatkey.com/) use it to run funds securely, and it secures billions of dollars in TVL across DeFi protocols and DAOs.
+The module is open source, audited, and widely used by DeFi treasury and fund managers.
 
 ## Key features
 
