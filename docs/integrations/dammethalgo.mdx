@@ -51,6 +51,7 @@ curl -s -X POST https://api.lagoon.finance/query \
   `managementFee: 0`, `performanceFee: 0`, `protocolFee: 1000` = 10% (of
   collected fees), no entry/exit fees.
 - `weeklyApr.twrrNetApr` = time-weighted net APR; `linearNetApr` = simple.
+  Both are already in percent (e.g. `4.99` = 4.99%).
   A `null` APR means insufficient recent settlement data for that window.
 
 ## 2. Historical time series
@@ -67,7 +68,8 @@ curl -s -X POST https://api.lagoon.finance/query \
 
 Other series under `stateHistory`: `totalAssets`, `totalSupply`,
 `pricePerShareUsd`, `managementFee`, `performanceFee`, `protocolFee`,
-`highWaterMark`. One point lands per settlement (roughly weekly).
+`highWaterMark`. One point lands per settlement. Cadence is irregular (gaps from under a day
+to several weeks), so check the last point's `x` for the NAV's age.
 
 ## 3. Transaction / event history
 
@@ -88,3 +90,16 @@ curl -s -X POST https://api.lagoon.finance/query \
 - A redeem's share burn appears as a `Transfer` to the vault's pending silo
   (`0xe1babd0324a5b91b4808f5b6363a103133d26c7f`), not to a third-party
   counterparty.
+
+## Caveat: composition data is incomplete
+
+:::warning DAMMethAlgo uses several Safes, and Lagoon only sees some of them
+DAMMethAlgo runs capital across several Safes, including a mother Safe and
+Aerodrome LP children on Base (v1.1). Lagoon's `composition` feed covers only
+part of this, recently about 40% of TVL, so `composition.totalValueInUsd` runs
+well below `state.totalAssetsUsd`.
+
+✅ Use `state.totalAssets` / `totalAssetsUsd` and `pricePerShare` for fund size
+and share price. ❌ Do **not** treat `composition` as a complete allocation
+picture for DAMMethAlgo.
+:::

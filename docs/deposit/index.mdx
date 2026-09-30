@@ -38,7 +38,7 @@ DAMM funds use **asynchronous deposits and redemptions** (the [ERC-7540](https:/
 
 In more detail:
 
-1. **You request a deposit.** Your assets leave your wallet and wait in the vault's pending area. You don't hold shares yet, and pending assets don't earn yield. Until settlement, you can cancel the request and get your assets back.
+1. **You request a deposit.** Your assets leave your wallet and wait in the vault's pending area. You don't hold shares yet, and pending assets don't earn yield. Until DAMM proposes the next NAV update, you can cancel the request and get your assets back. After that, it is locked into the upcoming settlement.
 2. **DAMM settles.** At the next NAV settlement, DAMM updates the fund's net asset value. All pending requests are processed together, at the same share price. This is what keeps pricing fair for everyone in the fund.
 3. **You claim your shares.** After settlement, your shares are ready to claim in the Lagoon app. Shares earn yield from settlement onward, even if you don't claim them straight away.
 
@@ -52,7 +52,7 @@ Redemptions mirror deposits:
 2. **DAMM settles** at the next NAV settlement, and your shares are converted to the fund's asset at that price.
 3. **You claim your assets** in the Lagoon app.
 
-A redemption request **cannot be cancelled** once sent. This keeps the fund's liquidity planning predictable. See each fund page for its liquidity terms.
+On DAMMstable and DAMMeth, a redemption request **cannot be cancelled** once sent. This keeps the fund's liquidity planning predictable. On DAMMbtc (Lagoon v0.6), a pending redemption request can be cancelled until the next NAV update is posted; after that it is locked in. See each fund page for its liquidity terms.
 
 ## Before you start
 

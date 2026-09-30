@@ -39,15 +39,16 @@ The fund aims to maximize nominal returns on ether. It treats ETH as a long-term
 
 - **ETH-native income.** Returns are earned and measured in ETH. Track the fund by its share price in ETH, not its USD value.
 - **Market-neutral.** Correlated-pair strategies and delta-neutral positions. No directional exposure beyond ETH itself.
-- **Capital preservation.** Blue-chip protocols only. Onchain permission policies limit every action the fund can take.
+- **Capital preservation.** Blue-chip protocols only. Onchain permission policies ([Zodiac Roles](../funds-architecture/zodiac-roles-module.md)) limit every action DAMM's trading systems can take.
 - **Diversification.** Exposure is spread across protocols and position types.
 
 ## Strategy
 
 DAMMeth spreads capital across ETH-denominated yield sources. It targets returns above the base staking rate while staying market-neutral.
 
-- **Algorithmic liquidity provision** with LSTs and LRTs on correlated pairs, on DEXs such as Uniswap, run by proprietary models.
+- **Algorithmic liquidity provision** on correlated LST/ETH pairs (such as wstETH, rETH and cbETH against WETH) on DEXs such as Uniswap, run by proprietary models.
 - **Overcollateralized lending** on trusted onchain credit markets.
+- **Collateralized borrowing.** The fund may borrow stablecoins against staked-ETH collateral on blue-chip money markets such as Spark, with conservative health factors enforced by onchain permissions.
 - **Fixed yield**, using zero-coupon bonds and fixed-rate protocols.
 - **LST and LRT arbitrage**, including redemption-based opportunities.
 - **Liquid staking** for extra ETH-native yield.

@@ -19,9 +19,9 @@ Every DAMM fund has three layers: a vault that handles investors, Safes that hol
 flowchart TB
   I["Investors"] -- "deposit / redeem requests" --> V["Lagoon vault (ERC-7540)<br/>shares priced at NAV"]
   V -- "settled capital" --> S["Fund Safe<br/>(multisig signers)"]
-  S --- R["Zodiac Roles<br/>scoped permissions"]
-  O["Operators and bots"] -- "only approved calls" --> R
-  R -- "execute" --> P["Approved DeFi protocols"]
+  O["Operators and bots"] -- "only approved calls" --> R["Zodiac Roles<br/>scoped permissions"]
+  R -- "checked call" --> S
+  S -- "executes (assets stay in the Safe)" --> P["Approved DeFi protocols"]
   class V accent
 ```
 
@@ -50,6 +50,8 @@ flowchart TB
   C3 -- executes --> S3["Strategy: options / vol"]
   class S1,S2,S3 accent
 ```
+
+*The strategies shown are illustrative. In DAMM's Algo funds today, each child Safe runs one isolated Uniswap LP pair.*
 
 ### Fund-to-fund structures
 

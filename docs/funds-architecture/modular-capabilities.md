@@ -12,6 +12,6 @@ DAMM funds add features through Safe-compatible modules. The modules are composa
 |---|---|---|
 | Transaction management | [Zodiac Roles Module](./zodiac-roles-module.md) | Operators transact for the fund, with scoped permissions for each DeFi protocol. |
 | Deposits and withdrawals | [Lagoon Deposit Module](./lagoon-deposit-module.md) | Investors deposit and receive shares, then redeem those shares to exit. |
-| Transaction delay | Zodiac Delay Module | Adds a mandatory wait before sensitive transactions run, giving stakeholders time to review them. |
+| Transaction delay | Zodiac Delay Module | Optional; not enabled on current DAMM funds. Can add a mandatory wait before sensitive transactions run, giving stakeholders time to review them. |
 
 Modules let funds scale securely while staying flexible in design.

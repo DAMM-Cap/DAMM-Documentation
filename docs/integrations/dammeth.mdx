@@ -54,6 +54,7 @@ curl -s -X POST https://api.lagoon.finance/query \
   `managementFee: 0`, `performanceFee: 1500` = 15%, `protocolFee: 750` = 7.5%
   (of collected fees), no entry/exit fees.
 - `weeklyApr.twrrNetApr` = time-weighted net APR; `linearNetApr` = simple.
+  Both are already in percent (e.g. `4.99` = 4.99%).
   A `null` APR means insufficient recent settlement data for that window.
 
 ## 2. Historical time series
@@ -70,7 +71,8 @@ curl -s -X POST https://api.lagoon.finance/query \
 
 Other series under `stateHistory`: `totalAssets`, `totalSupply`,
 `pricePerShareUsd`, `managementFee`, `performanceFee`, `protocolFee`,
-`highWaterMark`. One point lands per settlement (roughly weekly).
+`highWaterMark`. One point lands per settlement. Cadence is irregular (gaps from under a day
+to several weeks), so check the last point's `x` for the NAV's age.
 
 ## 3. Transaction / event history
 
@@ -96,4 +98,5 @@ curl -s -X POST https://api.lagoon.finance/query \
 
 - DAMMeth manages capital from a single Safe, so Lagoon's `composition` feed
   reconciles cleanly with `state.totalAssetsUsd` (unlike
-  [DAMMstable](./dammstable.mdx), where composition is partial).
+  [DAMMstable](./dammstable.mdx) and [DAMMethAlgo](./dammethalgo.mdx), where
+  composition is partial).

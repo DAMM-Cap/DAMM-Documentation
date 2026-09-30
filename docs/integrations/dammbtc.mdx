@@ -40,8 +40,7 @@ before you deposit, then follow the [DAMMbtc deposit guide](../deposit/dammbtc.m
 
 :::note Recently launched
 The DAMMbtc vault was deployed on Ethereum mainnet on **2026-07-30**, and
-its first NAV settlement was on **2026-08-04**. Until settlements accumulate, `stateHistory` is sparse and the APR windows (`weeklyApr`,
-`monthlyApr`, `yearlyApr`) return `null`.
+its first NAV settlement was on **2026-08-04**. History is still short (a handful of settlements), so `stateHistory` has only a few points. The APR windows (`weeklyApr`, `monthlyApr`, `yearlyApr`) do return values, but they are annualized from very little data. Until the vault is a year old, `yearlyApr` equals `inceptionApr`, so do not read it as an annual track record (the website shows "insufficient history" for this reason). Handle `null` defensively anyway.
 :::
 
 ## 1. Core state, fees & APRs
@@ -57,9 +56,10 @@ curl -s -X POST https://api.lagoon.finance/query \
   DAMMbtc is a BTC-denominated fund: track performance in the native series
   (`pricePerShare`), not the USD variants.
 - **Fees are basis points** (1e4 = 100%). Current configuration:
-  `managementFee: 0`, `performanceFee: 1500` = 15%, `protocolFee: 1000` = 10%
+  `managementFee: 0`, `performanceFee: 1500` = 15%, `protocolFee: 750` = 7.5%
   (of collected fees), no entry/exit fees.
 - `weeklyApr.twrrNetApr` = time-weighted net APR; `linearNetApr` = simple.
+  Both are already in percent (e.g. `4.99` = 4.99%).
   A `null` APR means insufficient recent settlement data for that window.
 
 ## 2. Historical time series
@@ -76,7 +76,8 @@ curl -s -X POST https://api.lagoon.finance/query \
 
 Other series under `stateHistory`: `totalAssets`, `totalSupply`,
 `pricePerShareUsd`, `managementFee`, `performanceFee`, `protocolFee`,
-`highWaterMark`. One point lands per settlement (roughly weekly).
+`highWaterMark`. One point lands per settlement. Cadence is irregular (gaps from under a day
+to several weeks), so check the last point's `x` for the NAV's age.
 
 ## 3. Transaction / event history
 

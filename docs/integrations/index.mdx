@@ -41,10 +41,9 @@ follow [How to deposit](../deposit/index.mdx).
 | DAMM BTC Algo Fund | Ethereum (1) | WBTC | [`0x9c41…79b9`](https://etherscan.io/address/0x9c414834a4a85aa15ec461edcd8cc9dd8ec979b9) | [DAMMbtcAlgo](./dammbtcalgo.mdx) |
 
 :::danger Pin the exact address and chainId. Never resolve by name.
-Lagoon's factory is permissionless, so searching vaults by name or symbol
-returns dozens of zero-TVL test deploys sharing our fund names (a search for
-"dammstable" returns 65 hits). **Always pin the exact `address` + `chainId`
-from the table above.**
+Searching vaults by name or symbol returns many other vaults that share our
+fund names (for example, dozens for "dammstable"). **Always pin the exact
+`address` + `chainId` from the table above.**
 :::
 
 ## Quick start
@@ -89,13 +88,17 @@ already pinned to that fund's address.
 - **Time-series points** are `{x, y}` pairs (`x` = unix seconds, `y` nullable),
   ascending, **max 1000 points per field**. Window with
   `options: {startTimestamp, endTimestamp}`.
-- **Settlement cadence is roughly weekly**: one `stateHistory` point per
-  `TotalAssetsUpdated` settlement. The API's granularity equals indexing the
-  on-chain events directly.
+- **Settlement cadence is irregular**: one `stateHistory` point per
+  `TotalAssetsUpdated` settlement. Settlements are triggered by the fund's
+  operator, not on a fixed schedule, and gaps range from under a day to several
+  weeks depending on the fund. To see how old the latest NAV is, compare the
+  last point's `x` timestamp with the current time. The API's granularity
+  equals indexing the on-chain events directly.
 - **APRs**: `twrrNetApr` is the time-weighted net APR for the window
   (`weeklyApr` / `monthlyApr` / `yearlyApr`); `linearNetApr` is the simple
-  variant. A `null` APR means insufficient recent settlement data for that
-  window.
+  variant. APR values are already percentages (`4.99` = 4.99% p.a.). They are
+  not fractions and not bps, so display them as-is. A `null` APR means
+  insufficient recent settlement data for that window.
 - **Pagination**: list queries return
   `{items {…}, pageInfo {totalCount hasNextPage skip limit count}}`.
   `totalCount` lives under `pageInfo`.

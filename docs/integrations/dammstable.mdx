@@ -33,10 +33,10 @@ response shapes shared by all funds.
 />
 
 :::warning Pin the address. Don't resolve by name.
-A name search for "dammstable" returns **65 hits**: one other live vault plus
-dozens of zero-TVL factory test deploys, all sharing the name *"DAMM
-Stablecoin Fund"* and symbol *DAMMstable*. Always pin the exact address +
-chainId above.
+A name or symbol search for "dammstable" returns dozens of other vaults that
+share this fund's name or symbol, some of which hold small balances. Only the
+address and chainId above are the DAMM Stablecoin Fund. Always pin them.
+Never resolve the vault by name.
 :::
 
 :::info Reading is open. Depositing is private.
@@ -59,6 +59,7 @@ curl -s -X POST https://api.lagoon.finance/query \
   `managementFee: 25` = 0.25%, `performanceFee: 1750` = 17.5%,
   `protocolFee: 750` = 7.5% (of collected fees), no entry/exit fees.
 - `weeklyApr.twrrNetApr` = time-weighted net APR; `linearNetApr` = simple.
+  Both are already in percent (e.g. `4.99` = 4.99%).
   A `null` APR means insufficient recent settlement data for that window.
 
 ## 2. Historical time series
@@ -75,7 +76,8 @@ curl -s -X POST https://api.lagoon.finance/query \
 
 Other series under `stateHistory`: `totalAssets`, `totalSupply`,
 `pricePerShare`, `managementFee`, `performanceFee`, `protocolFee`,
-`highWaterMark`. One point lands per settlement (roughly weekly).
+`highWaterMark`. One point lands per settlement. Cadence is irregular (gaps from under a day
+to several weeks), so check the last point's `x` for the NAV's age.
 
 ## 3. Transaction / event history
 

@@ -6,14 +6,14 @@ sidebar_position: 8
 
 # Security
 
-DAMM works entirely onchain and never takes custody of client assets. That design removes a whole class of risk, but it leaves us exposed to the risks every blockchain user faces, above all hacks. We would rather you did not have to trust us. So every system is non-custodial, every limit is enforced by code, and an outside firm audits the human layer.
+DAMM works entirely onchain and never uses third-party custodians: assets stay in onchain smart accounts. That design removes a whole class of risk, but it leaves us exposed to the risks every blockchain user faces, above all hacks. We would rather you did not have to trust us. So every system is non-custodial, every operator limit is enforced by code, and an outside firm audits the human layer.
 
 ## Our principles
 
 | # | Principle | What it means |
 |---|---|---|
-| 01 | **Non-custodial, always** | Assets stay in the fund's or client's own smart accounts. Execution runs through open-source code, so DAMM can never hold or withdraw client assets. |
-| 02 | **Open-source execution** | Our investment vehicles are built on Safe and [Zodiac Roles](./funds-architecture/zodiac-roles-module.md): neutral, open-source infrastructure that is not ours to change. It is independently audited and secures billions onchain. |
+| 01 | **Non-custodial by design** | DaaS clients keep their assets in their own smart accounts, and DAMM operates them only through Zodiac Roles permissions, so DAMM cannot withdraw them. Fund assets sit in each fund's own Safe, not in a DAMM wallet or with a custodian. Trading keys and bots can act only within the onchain Zodiac Roles policy. The Safe itself is a 3-of-4 multisig held by DAMM's three founders and OPSEK, and every owner action is public onchain. |
+| 02 | **Open-source execution** | Our investment vehicles are built on Safe, [Zodiac Roles](./funds-architecture/zodiac-roles-module.md) and Lagoon's ERC-7540 vault contracts: open-source infrastructure we did not write, independently audited and used in production onchain. |
 | 03 | **Verifiable, not reported** | Every position, swap and fee is onchain. Anyone can reconcile it at any time. |
 
 ## The two risks we manage
@@ -25,6 +25,8 @@ We split hack-related risk into two areas: **smart contract risk** and **operati
 No one can guarantee that a smart contract is 100% secure, but the risk can be reduced. Before we invest, we assess whether a protocol offers an attractive risk-adjusted profile. For that we use our [internal risk-adjusted framework](https://x.com/JuanSamitier/status/1950558124840014113) and risk rating providers such as [Credora](https://x.com/credoranetwork).
 
 Our own contracts follow the same standard. The [Permission Helpers](./funds-architecture/permission-helpers.md) we wrote for Uniswap V4 are audited by Certora and open source. Auditing practices and development tools have also improved a lot in recent years, and the total lost to exploits has fallen markedly.
+
+**Vault upgrades.** DAMMeth and DAMMstable run on Lagoon's shared vault implementation, which Lagoon's multisig can upgrade. DAMMbtc can only be upgraded by DAMM's Safe after a 7-day delay, and only to logic Lagoon has approved.
 
 ### Operational security (OpSec)
 
@@ -41,5 +43,6 @@ Strong OpSec protects capital and supports long-term performance. That is why we
 - **Scoped permissions.** Operators and bots act through [Zodiac Roles](./funds-architecture/zodiac-roles-module.md). They can only call approved contracts and functions, with approved parameters and within spending limits.
 - **Separation of duties.** Safe signers keep control. Operators get only the permissions their job needs.
 - **Guardian roles** can run emergency transactions, such as pulling funds from a protocol during an exploit.
-- **Transaction delay.** The Zodiac Delay Module can add a review period before sensitive transactions run. See [Modular Capabilities](./funds-architecture/modular-capabilities.md).
 - **Fair pricing.** Deposits and redemptions settle in batches at NAV through the [Lagoon Deposit Module](./funds-architecture/lagoon-deposit-module.md), which protects against front-running and mispricing.
+
+The toolkit also supports a Zodiac Delay Module that adds a review period before sensitive transactions. It is not enabled on the current funds. See [Modular Capabilities](./funds-architecture/modular-capabilities.md).

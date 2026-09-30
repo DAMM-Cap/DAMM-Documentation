@@ -208,7 +208,8 @@ export function SettlementCycle() {
       </ol>
       <figcaption className={styles.caption}>
         Redemptions follow the same three steps in reverse: request with your shares, wait for
-        settlement, claim your assets. A redemption request cannot be cancelled.
+        settlement, claim your assets. On DAMMstable and DAMMeth, a redemption request cannot
+        be cancelled.
       </figcaption>
     </figure>
   );

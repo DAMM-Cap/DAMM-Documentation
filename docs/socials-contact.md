@@ -14,7 +14,6 @@ The fastest way to reach us is email. Write to [team@dammcap.finance](mailto:tea
 | Website | [dammcap.finance](https://dammcap.finance) |
 | X | [x.com/DAMM_Capital](https://x.com/DAMM_Capital) |
 | LinkedIn | [linkedin.com/company/damm-capital](https://www.linkedin.com/company/damm-capital) |
-| Telegram | [t.me/+6ntEC5sU7tM4Yjlh](https://t.me/+6ntEC5sU7tM4Yjlh) |
 | GitHub | [github.com/DAMM-Cap](https://github.com/DAMM-Cap) |
 
 :::info Depositing into a fund?

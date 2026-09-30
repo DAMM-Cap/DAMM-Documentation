@@ -52,8 +52,9 @@ curl -s -X POST https://api.lagoon.finance/query \
   variants.
 - **Fees are basis points** (1e4 = 100%). Current configuration:
   `managementFee: 0`, `performanceFee: 0` (fees are charged at the
-  [DAMMbtc](./dammbtc.mdx) level), `protocolFee: 1000` = 10% (of collected fees).
+  [DAMMbtc](./dammbtc.mdx) level), `protocolFee: 750` = 7.5% (of collected fees, at time of writing).
 - `weeklyApr.twrrNetApr` = time-weighted net APR; `linearNetApr` = simple.
+  Both are already in percent (e.g. `4.99` = 4.99%).
   A `null` APR means insufficient recent settlement data for that window.
 
 ## 2. Historical time series
@@ -70,7 +71,8 @@ curl -s -X POST https://api.lagoon.finance/query \
 
 Other series under `stateHistory`: `totalAssets`, `totalSupply`,
 `pricePerShareUsd`, `managementFee`, `performanceFee`, `protocolFee`,
-`highWaterMark`. One point lands per settlement (roughly weekly).
+`highWaterMark`. One point lands per settlement. Cadence is irregular (gaps from under a day
+to several weeks), so check the last point's `x` for the NAV's age.
 
 ## 3. Transaction / event history
 
