@@ -6,7 +6,7 @@ sidebar_position: 2
 
 import {VaultMeta} from '@site/src/components/IntegrationsMeta';
 
-# DAMMstable — API access
+# DAMMstable: API access
 
 Fetch live and historical data for the **DAMM Stablecoin Fund** from the
 Lagoon API. See [Integrations](./index.mdx) for the endpoint, conventions, and
@@ -23,7 +23,7 @@ response shapes shared by all funds.
     {k: 'chainId', v: '42161 · Arbitrum'},
     {k: 'Asset', v: 'USDT0 (6 decimals)'},
     {k: 'Curator', v: 'DAMM Capital'},
-    {k: 'Access', v: 'Whitelist'},
+    {k: 'Access', v: 'Private (whitelist)'},
     {
       k: 'Invest',
       v: 'app.lagoon.finance',
@@ -32,18 +32,17 @@ response shapes shared by all funds.
   ]}
 />
 
-:::warning Pin the address — don't resolve by name
+:::warning Pin the address. Don't resolve by name.
 A name search for "dammstable" returns **65 hits**: one other live vault plus
 dozens of zero-TVL factory test deploys, all sharing the name *"DAMM
 Stablecoin Fund"* and symbol *DAMMstable*. Always pin the exact address +
 chainId above.
 :::
 
-:::info Whitelist required to transact
-Reading this data is open to everyone. Depositing into or redeeming from the
-vault requires your address to be whitelisted — request access via
-[team@dammcap.finance](mailto:team@dammcap.finance) or our
-[Telegram group](https://t.me/+6ntEC5sU7tM4Yjlh).
+:::info Reading is open. Depositing is private.
+Anyone can read this data. Only approved addresses can deposit into or redeem
+from the vault. Email [team@dammcap.finance](mailto:team@dammcap.finance)
+before you deposit, then follow the [DAMMstable deposit guide](../deposit/dammstable.mdx).
 :::
 
 ## 1. Core state, fees & APRs
@@ -55,7 +54,7 @@ curl -s -X POST https://api.lagoon.finance/query \
 ```
 
 - **Monetary fields are dual**: raw on-chain `BigInt` (`totalAssets`,
-  `pricePerShare` — USDT0 has 6 decimals) plus a convenience `…Usd: Float`.
+  `pricePerShare`, where USDT0 has 6 decimals) plus a convenience `…Usd: Float`.
 - **Fees are basis points** (1e4 = 100%). Current configuration:
   `managementFee: 25` = 0.25%, `performanceFee: 1750` = 17.5%,
   `protocolFee: 750` = 7.5% (of collected fees), no entry/exit fees.
@@ -80,7 +79,7 @@ Other series under `stateHistory`: `totalAssets`, `totalSupply`,
 
 ## 3. Transaction / event history
 
-Every indexed event — deposits, redeem requests, settlements, fees taken,
+Every indexed event: deposits, redeem requests, settlements, fees taken and
 rate updates. Filter with suffix operators (`_eq`, `_in`, `_gte`, …);
 paginate with `first` + `skip`.
 
@@ -100,9 +99,9 @@ curl -s -X POST https://api.lagoon.finance/query \
 
 ## Caveat: composition data is incomplete
 
-:::warning DAMMstable uses multiple Safes — Lagoon only sees some of them
+:::warning DAMMstable uses several Safes, and Lagoon only sees some of them
 DAMMstable spreads capital across several Safes, but the Lagoon `composition`
-feed (keyed off the vault's main Safe) only sees a subset — historically
+feed (keyed off the vault's main Safe) only sees a subset: historically
 around 44% of TVL. Consequently `composition.totalValueInUsd` runs well below
 `state.totalAssetsUsd`, and the protocol/token breakdown reflects only the
 visible Safes.

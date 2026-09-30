@@ -1,0 +1,28 @@
+---
+id: cross-chain-deployment
+title: Cross-Chain Deployment
+sidebar_position: 5
+---
+
+# Cross-Chain Deployment
+
+Funds use Safe's native multi-chain infrastructure to work across networks. With deterministic deployment, a fund can launch on several blockchains at once and keep **the same address on each**.
+
+```mermaid
+flowchart TB
+  D["Safe deployer"] -- "deploy fund" --> E["Ethereum"]
+  D -- "deploy fund" --> PG["Polygon"]
+  D -- "deploy fund" --> A["Arbitrum"]
+  E -- "0xabc…" --> FE["Fund on Ethereum"]
+  PG -- "0xabc…" --> FP["Fund on Polygon"]
+  A -- "0xabc…" --> FA["Fund on Arbitrum"]
+  class FE,FP,FA accent
+```
+
+*The networks and the `0xabc…` address above are an example.*
+
+Combined with bridges, this design enables:
+
+- unified fund management across networks;
+- flexible capital deployment;
+- secure cross-chain communication between funds.

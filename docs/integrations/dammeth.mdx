@@ -6,7 +6,7 @@ sidebar_position: 3
 
 import {VaultMeta} from '@site/src/components/IntegrationsMeta';
 
-# DAMMeth — API access
+# DAMMeth: API access
 
 Fetch live and historical data for the **DAMM Ethereum Fund** from the
 Lagoon API. See [Integrations](./index.mdx) for the endpoint, conventions, and
@@ -23,7 +23,7 @@ response shapes shared by all funds.
     {k: 'chainId', v: '1 · Ethereum'},
     {k: 'Asset', v: 'WETH (18 decimals)'},
     {k: 'Curator', v: 'DAMM Capital'},
-    {k: 'Access', v: 'Whitelist'},
+    {k: 'Access', v: 'Private (whitelist)'},
     {
       k: 'Invest',
       v: 'app.lagoon.finance',
@@ -32,11 +32,10 @@ response shapes shared by all funds.
   ]}
 />
 
-:::info Whitelist required to transact
-Reading this data is open to everyone. Depositing into or redeeming from the
-vault requires your address to be whitelisted — request access via
-[team@dammcap.finance](mailto:team@dammcap.finance) or our
-[Telegram group](https://t.me/+6ntEC5sU7tM4Yjlh).
+:::info Reading is open. Depositing is private.
+Anyone can read this data. Only approved addresses can deposit into or redeem
+from the vault. Email [team@dammcap.finance](mailto:team@dammcap.finance)
+before you deposit, then follow the [DAMMeth deposit guide](../deposit/dammeth.mdx).
 :::
 
 ## 1. Core state, fees & APRs
@@ -48,7 +47,7 @@ curl -s -X POST https://api.lagoon.finance/query \
 ```
 
 - **Monetary fields are dual**: raw on-chain `BigInt` (`totalAssets`,
-  `pricePerShare` — WETH has 18 decimals) plus a convenience `…Usd: Float`.
+  `pricePerShare`, where WETH has 18 decimals) plus a convenience `…Usd: Float`.
   DAMMeth is an ETH-denominated fund: track performance in the native series
   (`pricePerShare`), not the USD variants.
 - **Fees are basis points** (1e4 = 100%). Current configuration:
@@ -75,7 +74,7 @@ Other series under `stateHistory`: `totalAssets`, `totalSupply`,
 
 ## 3. Transaction / event history
 
-Every indexed event — deposits, redeem requests, settlements, fees taken,
+Every indexed event: deposits, redeem requests, settlements, fees taken and
 rate updates. Filter with suffix operators (`_eq`, `_in`, `_gte`, …);
 paginate with `first` + `skip`.
 

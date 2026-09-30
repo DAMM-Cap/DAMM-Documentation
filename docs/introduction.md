@@ -6,30 +6,41 @@ sidebar_position: 2
 
 # Introduction
 
-DAMM aims to be the **DeFi arm powering on-chain finance**, with two main verticals:
+DAMM Capital is the financial and technical arm for institutions adopting DeFi. We work in two verticals that share one engine: **tokenized funds** and **DeFi as a Service (DaaS)**.
 
-#### 1. Tokenized Funds
+We don't predict markets. We engineer systems that adapt to them. Strategies are modelled, simulated and back-tested before they touch capital. They then run through audited onchain infrastructure that we build in house.
 
-On-chain, non-custodial crypto funds with varying risk profiles and use cases. All funds are developed in-house and powered by the **DAMM Toolkit** — our proprietary on-chain fund architecture.
+## 1. Tokenized funds
 
-At inception, DAMM will offer three core funds:
+Onchain, non-custodial funds with different risk profiles and uses. We build every fund in house on the **DAMM Toolkit**, our onchain fund architecture. All three core funds are live:
 
-* **DAMMstable** – a systematic, market-neutral fund designed to deliver the best risk-adjusted returns on USD-denominated stablecoins.
-* **DAMMeth** – an ETH-focused, market-neutral fund built to help ETH holders achieve superior risk-adjusted returns on their Ether.
-* **DAMMbtc** – a Bitcoin fund aiming to generate yield by deploying sophisticated strategies on Ethereum and L2s.
+| Fund | Denomination | What it does |
+|---|---|---|
+| [DAMMstable](./funds/dammstable-arbitrum.mdx) | USD | A market-neutral fund that aims for the best risk-adjusted return on USD stablecoins. |
+| [DAMMeth](./funds/dammeth.mdx) | ETH | A market-neutral fund that grows ETH holdings, measured in ETH. |
+| [DAMMbtc](./funds/dammbtc.mdx) | BTC | A rule-based fund that grows BTC holdings, measured in BTC. Live, with new deposits capped. |
 
-*Note: since BTC is non-native to Ethereum, this inherently involves higher risk.*
+BTC is not native to Ethereum. Any BTC strategy on Ethereum and its L2s holds wrapped BTC, which adds risk compared with ETH or USD strategies.
 
-Check them more in detail on [Funds](/funds)
+All funds are private. Email [team@dammcap.finance](mailto:team@dammcap.finance) before you deposit. Full details are in [Funds](./funds/index.mdx) and [How to deposit](./deposit/index.mdx).
 
-#### 2. DeFi-as-a-Service (DaaS)
+## 2. DeFi as a Service (DaaS)
 
-DAMM also acts as the **execution arm for institutions and clients**, enabling them to integrate DeFi to power their operations.
+DAMM is also the execution arm for institutions and clients that want DeFi in their operations. All infrastructure is self-custodial: **you custody, DAMM manages**.
 
-To achieve this, we leverage the components described in the [Funds Architecture (technical)](/funds-architecture) section, which enable us to manage assets autonomously and efficiently while ensuring clients retain full self-custody.
+We offer four services:
 
-Examples include:
+- **Liquidity management.** Market making on DEXs or CEXs. Always non-custodial, driven by mathematical models.
+- **Curation.** Money-market creation for institutions, with proven models and infrastructure.
+- **DeFi execution.** We integrate and build onchain financial products at lower cost. That can mean plugging in native onchain yield, or adapting TradFi strategies to DeFi.
+- **Research.** Quantitative research on markets and yields, built for real-world use.
 
-* Banks integrating DeFi solutions for their end-users.
-* Protocols (e.g., Pendle, Euler) seeking tailored DeFi integrations.
-* Crypto-native companies optimizing their token liquidity on DEXs through DAMM's advanced, proprietary liquidity management models.
+We deliver these with the components described in [Funds Architecture](./funds-architecture/index.mdx). They let us manage assets autonomously and efficiently while clients keep full self-custody.
+
+Typical examples:
+
+- Banks and fintechs offering DeFi products to their end users.
+- Protocols (for example Pendle or Euler) that want tailored DeFi integrations.
+- Crypto-native companies that want better liquidity for their token on DEXs, using DAMM's liquidity management models.
+
+Partners don't have to use DAMM's risk framework. They can bring their own risk profile, and we provide the tooling, support and execution to implement it. To start, write to [team@dammcap.finance](mailto:team@dammcap.finance) with what you want to build.

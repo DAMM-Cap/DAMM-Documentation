@@ -5,12 +5,11 @@ sidebar_position: 3
 ---
 
 import {VaultMeta} from '@site/src/components/IntegrationsMeta';
+import {DepositNotice} from '@site/src/components/Obsidian';
 
-# DAMMeth — DAMM Ethereum Fund
+# DAMMeth
 
-DAMMeth is a market-neutral, ETH-denominated fund designed to deliver
-risk-adjusted returns by combining decentralized market-making models with
-diversified strategies across battle-tested DeFi infrastructure.
+**DAMM Ethereum Fund.** A market-neutral, ETH-denominated fund built for long-term ETH accumulation. It combines DAMM's market-making models with diversified strategies on battle-tested DeFi protocols, and aims to grow your ETH whichever way the ETH price moves.
 
 <VaultMeta
   items={[
@@ -21,89 +20,68 @@ diversified strategies across battle-tested DeFi infrastructure.
       copy: '0x3c63f3ce75dc83735745cf4e86b63414d95ee355',
     },
     {k: 'Chain', v: 'Ethereum (1)'},
-    {k: 'Denomination', v: 'ETH · WETH'},
-    {k: 'Liquidity', v: 'T+1 requests'},
-    {k: 'Access', v: 'Whitelist'},
+    {k: 'Asset', v: 'ETH / WETH'},
+    {k: 'Inception', v: 'September 2025'},
+    {k: 'Access', v: 'Private · email first'},
     {
-      k: 'Invest',
+      k: 'Lagoon',
       v: 'app.lagoon.finance',
       href: 'https://app.lagoon.finance/vault/1/0x3c63f3ce75dc83735745cf4e86b63414d95ee355',
     },
   ]}
 />
 
+<DepositNotice fund="DAMMeth" />
+
 ## Objective
 
-The fund actively allocates capital across a range of yield optimization
-techniques, aiming to maximize nominal returns on Ether — preserving ETH
-as a long-term store of value while compounding sustainable, on-chain-native
-yield.
+The fund aims to maximize nominal returns on ether. It treats ETH as a long-term store of value and compounds sustainable, onchain-native yield on top.
 
-- **ETH-native income** — returns are generated and measured in ETH; track
-  performance in the fund's native share price, not its USD value.
-- **Market-neutral** — correlated-pair strategies and delta-neutral
-  positioning; no directional exposure beyond ETH itself.
-- **Capital preservation** — blue-chip protocols only, with on-chain
-  permission policies constraining every action the fund can take.
-- **Diversification** — exposure spread across protocols and position types.
+- **ETH-native income.** Returns are earned and measured in ETH. Track the fund by its share price in ETH, not its USD value.
+- **Market-neutral.** Correlated-pair strategies and delta-neutral positions. No directional exposure beyond ETH itself.
+- **Capital preservation.** Blue-chip protocols only. Onchain permission policies limit every action the fund can take.
+- **Diversification.** Exposure is spread across protocols and position types.
 
 ## Strategy
 
-<img src="/img/dammeth-fund.png" alt="DAMMeth fund" width="340" />
+DAMMeth spreads capital across ETH-denominated yield sources. It targets returns above the base staking rate while staying market-neutral.
 
-DAMMeth deploys capital through a diversified set of strategies:
+- **Algorithmic liquidity provision** with LSTs and LRTs on correlated pairs, on DEXs such as Uniswap, run by proprietary models.
+- **Overcollateralized lending** on trusted onchain credit markets.
+- **Fixed yield**, using zero-coupon bonds and fixed-rate protocols.
+- **LST and LRT arbitrage**, including redemption-based opportunities.
+- **Liquid staking** for extra ETH-native yield.
 
-- **Algorithmic liquidity provision** using LSTs and LRTs on correlated pairs
-  via DEXes like Uniswap, powered by proprietary models.
-- **Overcollateralized lending** on trusted on-chain credit markets.
-- **Fixed income** using zero-coupon bonds and fixed-rate protocols.
-- **LST/LRT arbitrage** and redemption-based opportunities.
-- **Liquid staking** for additional ETH-native yield.
+Allocation is partly algorithmic and partly discretionary. Algorithmic tooling watches yield spreads, protocol risk and onchain conditions. All yield is generated onchain and the assets stay self-custodied at all times, so anyone can audit them.
 
-The result is a transparent, partially algorithmic, discretionary capital
-allocation model across blue-chip DeFi ecosystems.
+Performance, current allocation and risk metrics are on the [DAMMeth factsheet](https://dammcap.finance/funds/dammeth).
 
-## Terms & fees
+## Terms and fees
 
 | Term | Value |
 |---|---|
-| Denomination asset | WETH (18 decimals) |
-| Structure | Lagoon vault + Safe smart accounts under Zodiac Roles policies |
-| Subscriptions / redemptions | Request-based (asynchronous), settled against NAV |
-| Liquidity | T+1, if needed |
+| Asset | WETH (18 decimals) |
+| Structure | Async tokenized vault (ERC-7540) on Lagoon, with Safe smart accounts under Zodiac Roles policies |
+| Deposits and redemptions | Request-based, settled at NAV |
+| Liquidity | T+1 when needed |
 | Management fee | 0% |
-| Performance fee | 15% |
-| Entry / exit fees | None |
-| Access | Whitelisted investors only |
+| Performance fee | 15%, above a high-water mark |
+| Entry and exit fees | None |
+| Access | Private: approved addresses only. Email [team@dammcap.finance](mailto:team@dammcap.finance) first |
 
-Current fee configuration is always readable on-chain and via the
-[Lagoon API](../integrations/dammeth.mdx) (`managementFee`, `performanceFee`,
-in basis points).
+The live fee settings are always readable onchain and through the [Lagoon API](../integrations/dammeth.mdx) (`managementFee` and `performanceFee`, in basis points).
 
-## Access
+## How to deposit
 
-DAMMeth is available to whitelisted investors only. Request access via
-[team@dammcap.finance](mailto:team@dammcap.finance) or our
-[Telegram group](https://t.me/+6ntEC5sU7tM4Yjlh), then invest through the
-[Lagoon app](https://app.lagoon.finance/vault/1/0x3c63f3ce75dc83735745cf4e86b63414d95ee355).
+1. Email [team@dammcap.finance](mailto:team@dammcap.finance?subject=DAMMeth%20deposit) before you deposit.
+2. Follow the [DAMMeth deposit guide](../deposit/dammeth.mdx). It covers the request, settlement and claim steps, and how to redeem.
 
-**Your position** — connect your wallet on the fund's
-[Lagoon app page](https://app.lagoon.finance/vault/1/0x3c63f3ce75dc83735745cf4e86b63414d95ee355)
-to see your shares, their current value, and pending requests. Fund-level NAV
-and performance are published on [dammcap.finance](https://dammcap.finance).
+**Your position.** Connect your wallet on the fund's [Lagoon page](https://app.lagoon.finance/vault/1/0x3c63f3ce75dc83735745cf4e86b63414d95ee355) to see your shares, their value and any pending requests.
 
-## Fund data & integrations
+## Fund data and integrations
 
-Everything the fund does is public and queryable without an API key — share
-price, TVL, fees, APRs, and full transaction history — through Lagoon's
-GraphQL API, pinned to the vault address and chain above.
+Everything the fund does is public and can be queried without an API key: share price, TVL, fees, APRs and the full transaction history. It is all served by Lagoon's GraphQL API, pinned to the vault address and chain above.
 
-- **[DAMMeth API guide](../integrations/dammeth.mdx)** — copy-paste queries
-  for this fund (current state, historical time series, transaction ledger).
-- **[Integrations overview](../integrations/index.mdx)** — endpoint,
-  conventions, and response shapes shared by all DAMM funds.
-- **[Lagoon documentation](https://docs.lagoon.finance)** — the vault layer
-  itself: [deposit & redemption flows](https://docs.lagoon.finance/vault/deposit-and-withdraw-flows),
-  [vault valuation](https://docs.lagoon.finance/vault/vault-valuation),
-  [fees](https://docs.lagoon.finance/vault/fees), and
-  [roles](https://docs.lagoon.finance/vault/roles-and-capacities).
+- **[DAMMeth API guide](../integrations/dammeth.mdx).** Copy-paste queries for this fund (current state, history, transactions).
+- **[Integrations overview](../integrations/index.mdx).** Endpoint, conventions and response shapes shared by all DAMM funds.
+- **[Lagoon documentation](https://docs.lagoon.finance).** The vault layer itself: [deposit and redemption flows](https://docs.lagoon.finance/vault/deposit-and-withdraw-flows), [valuation](https://docs.lagoon.finance/vault/vault-valuation), [fees](https://docs.lagoon.finance/vault/fees) and [roles](https://docs.lagoon.finance/vault/roles-and-capacities).

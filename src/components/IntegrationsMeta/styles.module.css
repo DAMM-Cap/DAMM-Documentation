@@ -6,15 +6,19 @@
 }
 
 .pill {
-  font-size: 13px;
-  color: var(--ifm-color-content-secondary);
+  font: 500 11px/1.4 var(--ifm-font-family-monospace);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--damm-muted);
   background: var(--ifm-background-surface-color);
   border: 1px solid var(--ifm-color-emphasis-300);
   padding: 6px 12px;
-  border-radius: 999px;
+  border-radius: 0;
 }
 
 .pill b {
+  text-transform: none;
+  letter-spacing: 0;
   color: var(--ifm-font-color-base);
   font-family: var(--ifm-font-family-monospace);
   font-size: 12.5px;
@@ -25,9 +29,9 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1px;
-  background: var(--ifm-color-emphasis-200);
-  border: 1px solid var(--ifm-color-emphasis-200);
-  border-radius: 12px;
+  background: var(--damm-line);
+  border: 1px solid var(--damm-line);
+  border-radius: 0;
   overflow: hidden;
   margin: 1.25rem 0 1.5rem;
 }
@@ -39,22 +43,24 @@
 }
 
 .k {
-  font-size: 11px;
+  font: 500 11px/1.2 var(--ifm-font-family-monospace);
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--ifm-color-content-secondary);
-  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--damm-muted);
 }
 
 .v {
-  font-size: 14px;
+  font-size: 13.5px;
+  color: var(--damm-ink);
   font-family: var(--ifm-font-family-monospace);
   margin-top: 4px;
   word-break: break-all;
 }
 
 .v a {
-  color: var(--ifm-color-primary);
+  color: var(--damm-accent);
+  text-decoration: none;
+  border-bottom: 0 !important;
 }
 
 .copyBtn {
@@ -62,7 +68,7 @@
   background: transparent;
   border: 1px solid var(--ifm-color-emphasis-300);
   color: var(--ifm-color-content-secondary);
-  border-radius: 6px;
+  border-radius: 0;
   padding: 0 6px;
   margin-left: 6px;
   font-size: 12px;

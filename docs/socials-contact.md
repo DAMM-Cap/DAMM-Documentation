@@ -6,10 +6,17 @@ sidebar_position: 11
 
 # Socials & Contact
 
-**Twitter / X**: [https://x.com/DAMM\_Capital](https://x.com/DAMM_Capital)
+The fastest way to reach us is email. Write to [team@dammcap.finance](mailto:team@dammcap.finance) for fund access, deposits, partnerships or anything else.
 
-**Telegram:** [https://t.me/+6ntEC5sU7tM4Yjlh](https://t.me/+6ntEC5sU7tM4Yjlh)
+| Channel | Link |
+|---|---|
+| Email | [team@dammcap.finance](mailto:team@dammcap.finance) |
+| Website | [dammcap.finance](https://dammcap.finance) |
+| X | [x.com/DAMM_Capital](https://x.com/DAMM_Capital) |
+| LinkedIn | [linkedin.com/company/damm-capital](https://www.linkedin.com/company/damm-capital) |
+| Telegram | [t.me/+6ntEC5sU7tM4Yjlh](https://t.me/+6ntEC5sU7tM4Yjlh) |
+| GitHub | [github.com/DAMM-Cap](https://github.com/DAMM-Cap) |
 
-**Linkedin:** [https://www.linkedin.com/company/damm-capital](https://www.linkedin.com/company/damm-capital)
-
-**Email:** [team@dammcap.finance](mailto:team@dammcap.finance)
+:::info Depositing into a fund?
+Email [team@dammcap.finance](mailto:team@dammcap.finance) before you deposit. All DAMM funds are private. See [How to deposit](./deposit/index.mdx).
+:::
