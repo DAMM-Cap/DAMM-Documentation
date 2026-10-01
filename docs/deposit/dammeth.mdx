@@ -1,0 +1,52 @@
+---
+id: dammeth
+title: Deposit into DAMMeth
+sidebar_label: DAMMeth
+sidebar_position: 3
+description: Step-by-step guide to depositing ETH or WETH into DAMMeth on Ethereum through Lagoon, and redeeming.
+---
+
+import {DepositNotice, DepositVideo, Ledger} from '@site/src/components/Obsidian';
+
+# Deposit into DAMMeth
+
+DAMMeth takes **ETH on Ethereum mainnet**. The vault's asset is WETH (wrapped ETH). You deposit through the Lagoon app. Your deposit settles at the fund's next NAV, and then you claim DAMMeth shares.
+
+<DepositNotice fund="DAMMeth" />
+
+<DepositVideo name="dammeth-deposit" title="DAMMeth · deposit walkthrough" />
+
+## What you need
+
+<Ledger
+  rows={[
+    ['Approval', <>An approved wallet. Email <a href="mailto:team@dammcap.finance?subject=DAMMeth%20deposit">team@dammcap.finance</a> first.</>],
+    ['Network', 'Ethereum mainnet (chain ID 1)'],
+    ['Asset', <>WETH (<a href="https://etherscan.io/token/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2">0xC02a…6Cc2</a>). If you hold ETH, wrap it first, or use the ETH option if the app offers it.</>],
+    ['Gas', 'ETH on Ethereum'],
+    ['Vault', <><a href="https://etherscan.io/address/0x3c63f3ce75dc83735745cf4e86b63414d95ee355">0x3c63f3ce75dc83735745cf4e86b63414d95ee355</a></>],
+    ['App', <><a href="https://app.lagoon.finance/?curator=curator%3Adamm-capital">Lagoon · DAMM Capital funds</a></>],
+  ]}
+/>
+
+## Deposit
+
+1. **Email us.** Write to [team@dammcap.finance](mailto:team@dammcap.finance?subject=DAMMeth%20deposit) with the wallet address you plan to use. Wait for our reply before you send funds.
+2. **Fund your wallet.** Hold the ETH or WETH you want to deposit on Ethereum, plus extra ETH for gas.
+3. **Open the fund.** Go to [DAMM Capital on Lagoon](https://app.lagoon.finance/?curator=curator%3Adamm-capital) and select **DAMM Ethereum Fund (DAMMeth)** on Ethereum. Or open the [vault page directly](https://app.lagoon.finance/vault/1/0x3c63f3ce75dc83735745cf4e86b63414d95ee355). Check that the vault address matches the one above.
+4. **Connect and enter the amount.** Connect your wallet and enter how much to deposit.
+5. **Approve, then request.** If you deposit WETH, approve it for the vault first. Then confirm the deposit request. Your deposit moves into the vault's pending area.
+6. **Wait for settlement.** The request stays pending until DAMM's next NAV settlement. It earns no yield while pending. You can cancel it in the app until the next NAV update is proposed.
+7. **Claim your shares.** After settlement, your DAMMeth shares are ready. Claim them in the app. They earn yield from settlement onward, claimed or not.
+
+## Redeem
+
+1. On the fund's Lagoon page, choose to redeem and enter how many shares to redeem.
+2. Confirm the redemption request. It **cannot be cancelled** once sent.
+3. After the next settlement, claim your WETH in the app.
+
+DAMMeth offers T+1 liquidity when needed. See [DAMMeth terms](../funds/dammeth.mdx#terms-and-fees).
+
+:::tip Measured in ETH
+DAMMeth is built to grow your ETH. Judge it by how many ETH your shares are worth, not their USD value.
+:::

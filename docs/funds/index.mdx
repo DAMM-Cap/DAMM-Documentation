@@ -1,0 +1,41 @@
+---
+id: funds
+title: Funds
+sidebar_position: 1
+---
+
+import {DepositNotice, FundGrid} from '@site/src/components/Obsidian';
+
+# Funds
+
+DAMM runs tokenized, non-custodial funds on [Lagoon](https://docs.lagoon.finance/overview/readme) vaults and Safe smart accounts. DAMM's trading systems deploy the capital, but only within onchain permission policies ([Zodiac Roles](../funds-architecture/zodiac-roles-module.md)). Fund shares are ERC-20 tokens priced by NAV. You enter and exit through requests that settle at the fund's NAV.
+
+<DepositNotice />
+
+<FundGrid cta="Fund page" />
+
+## At a glance
+
+| Fund | Asset | Chain | Strategy | Since |
+|---|---|---|---|---|
+| [DAMMstable](./dammstable-arbitrum.mdx) | USD₮0 | Arbitrum | Market-neutral stablecoin yield: lending, liquidity provision, fixed yield | July 2023 |
+| [DAMMeth](./dammeth.mdx) | ETH / WETH | Ethereum | Market-neutral ETH yield: liquidity provision, lending, fixed yield, staking | September 2025 |
+| [DAMMbtc](./dammbtc.mdx) | WBTC | Ethereum | BTC-native yield: rule-based concentrated liquidity on BTC pairs | August 2026 (deposits capped) |
+
+## Who can deposit
+
+Anyone can read fund data. Only approved wallet addresses can deposit or redeem: all three funds run in Lagoon's whitelist mode. To get started, email [team@dammcap.finance](mailto:team@dammcap.finance) **before** you send anything. Then follow the [How to deposit](../deposit/index.mdx) guide for your fund.
+
+:::note Execution vehicles
+Two internal funds, DAMMethAlgo and DAMMbtcAlgo, run algorithmic strategies that the flagship funds allocate into. You cannot invest in them directly. Their onchain data is public like everything else; see [Integrations](../integrations/index.mdx).
+:::
+
+## Where to find what
+
+- **Objective, terms, fees and addresses.** Each fund page in this section.
+- **How to deposit and redeem.** [How to deposit](../deposit/index.mdx), with a step-by-step guide per fund.
+- **Performance, allocation and risk metrics.** The factsheets on [dammcap.finance](https://dammcap.finance).
+- **Live share price, TVL and your own position.** Each fund's page in the [Lagoon app](https://app.lagoon.finance/?curator=curator%3Adamm-capital). Connect your wallet to see your shares and their value.
+- **Fund data for your product.** [Integrations](../integrations/index.mdx): copy-paste API guides per fund.
+- **How the vault layer works** (async deposits and redemptions, valuation, roles). [Lagoon Deposit Module](../funds-architecture/lagoon-deposit-module.md) and [Lagoon's documentation](https://docs.lagoon.finance).
+- **How DAMM's execution stack works.** [Funds Architecture](../funds-architecture/index.mdx).

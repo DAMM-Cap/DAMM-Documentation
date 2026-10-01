@@ -1,0 +1,491 @@
+/* Obsidian doc components. All colours come from the tokens in custom.css,
+   so light (Daylight) and dark (Obsidian) both work. Sharp corners only. */
+
+.eyebrow {
+  font: 500 var(--damm-fs-label) / 1.2 var(--ifm-font-family-monospace);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--damm-muted);
+  margin: 0 0 12px;
+}
+
+/* ---------- pixels / dots ---------- */
+.pixel,
+.pixelOn {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--damm-line-strong);
+  flex-shrink: 0;
+}
+.pixelOn {
+  background: var(--damm-accent-fill);
+  border-color: var(--damm-accent-fill);
+}
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--damm-accent-fill);
+  box-shadow: 0 0 10px var(--damm-accent-glow);
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* ---------- private-deposit notice ---------- */
+.notice {
+  position: relative;
+  margin: 1.5rem 0 2rem;
+  padding: 18px 20px 18px 22px;
+  background: var(--damm-accent-wash);
+  border: 1px solid var(--damm-accent-35);
+  border-left: 2px solid var(--damm-accent-fill);
+}
+.noticeHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 500 var(--damm-fs-label) / 1.2 var(--ifm-font-family-monospace);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--damm-accent);
+  margin-bottom: 8px;
+}
+.noticeBody {
+  margin: 0;
+  color: var(--damm-ink);
+  font-size: 15.5px;
+  line-height: 1.6;
+}
+.noticeBody a {
+  font-weight: 600;
+  color: var(--damm-accent);
+  border-bottom: 1px solid var(--damm-accent-35);
+  text-decoration: none;
+}
+.noticeBody a:hover {
+  color: var(--damm-ink);
+}
+
+/* ---------- video ---------- */
+.video {
+  margin: 1.5rem 0 2rem;
+  border: 1px solid var(--damm-line);
+  background: var(--damm-bg-panel);
+}
+.videoChrome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--damm-line);
+}
+.videoLabel {
+  margin-left: 10px;
+  font: 400 var(--damm-fs-micro) / 1.2 var(--ifm-font-family-monospace);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--damm-muted);
+}
+.videoEl {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  background: var(--damm-bg);
+}
+.videoFallback {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  aspect-ratio: 16 / 7;
+  padding: 24px;
+  text-align: center;
+  color: var(--damm-ink-2);
+  background-image: linear-gradient(to right, var(--damm-grid-guide) 1px, transparent 1px);
+  background-size: calc(100% / 12) 100%;
+}
+.videoFallback p {
+  margin: 0;
+  max-width: 36em;
+  font-size: 14px;
+}
+.videoMark {
+  color: var(--damm-accent);
+  opacity: 0.8;
+}
+
+/* ---------- settlement cycle ---------- */
+.cycle {
+  margin: 1.5rem 0 2.25rem;
+  border: 1px solid var(--damm-line);
+  background: var(--damm-bg-raise);
+  padding: 24px 20px 20px;
+}
+.cycleSvg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  overflow: visible;
+}
+.cyLine {
+  stroke: var(--damm-line-strong);
+  stroke-width: 1;
+}
+.cyFlow {
+  stroke: var(--damm-accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 210;
+  animation: flow 3.2s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+@keyframes flow {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: -216;
+  }
+}
+.cyRing {
+  fill: none;
+  stroke: var(--damm-ink);
+  stroke-width: 3.4;
+}
+.cyPixel {
+  fill: none;
+  stroke: var(--damm-ink-2);
+  stroke-width: 1.2;
+}
+.cyPixelOn {
+  fill: var(--damm-accent-fill);
+}
+.cyMath {
+  font: italic 400 20px var(--damm-font-math);
+  fill: var(--damm-ink);
+}
+.cyLab {
+  font: 500 11px var(--ifm-font-family-monospace);
+  letter-spacing: 0.16em;
+  fill: var(--damm-muted);
+}
+.cyNote {
+  font: italic 400 16px var(--damm-font-math);
+  fill: var(--damm-muted);
+}
+.cycleSteps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  list-style: none;
+  padding: 0;
+  margin: 20px 0 0;
+  border-top: 1px solid var(--damm-line);
+}
+.cycleSteps li {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 16px 4px 0;
+  margin: 0;
+  font-size: 14px;
+  color: var(--damm-ink-2);
+  min-width: 0;
+}
+.cycleSteps li + li {
+  padding-left: 16px;
+  border-left: 1px solid var(--damm-line);
+}
+.cycleSteps strong {
+  color: var(--damm-ink);
+  font-weight: 500;
+  font-size: 16px;
+}
+.cycleN {
+  font: 400 var(--damm-fs-micro) / 1.2 var(--ifm-font-family-monospace);
+  letter-spacing: 0.18em;
+  color: var(--damm-accent);
+}
+.caption {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid var(--damm-line);
+  font-size: 13.5px;
+  color: var(--damm-muted);
+}
+
+/* ---------- fund grid ---------- */
+.fundGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  border-top: 1px solid var(--damm-line);
+  border-left: 1px solid var(--damm-line);
+  margin: 1.5rem 0 2rem;
+}
+.fundCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  min-width: 0;
+  border-right: 1px solid var(--damm-line);
+  border-bottom: 1px solid var(--damm-line);
+  color: var(--damm-ink);
+  background: var(--damm-bg-raise);
+  transition:
+    background-color 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fundCard:hover {
+  text-decoration: none;
+  color: var(--damm-ink);
+  background: var(--damm-accent-wash);
+  box-shadow: inset 0 0 0 1px var(--damm-accent);
+}
+.fundTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+.fundUnit,
+.fundStatus,
+.fundMeta,
+.fundCta {
+  font: 500 var(--damm-fs-label) / 1.2 var(--ifm-font-family-monospace);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--damm-muted);
+}
+.fundStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  color: var(--damm-ink-2);
+}
+.fundName {
+  font-size: 28px;
+  font-weight: 300;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.fundLine {
+  margin: 0;
+  font-size: 14px;
+  color: var(--damm-ink-2);
+  flex: 1;
+}
+.fundMeta {
+  letter-spacing: 0.1em;
+  text-transform: none;
+  font-weight: 400;
+  font-size: 12px;
+}
+.fundCta {
+  color: var(--damm-accent);
+}
+.arrow {
+  display: inline-block;
+  transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fundCard:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* ---------- ledger ---------- */
+.ledger {
+  margin: 1.25rem 0 2rem;
+  border-top: 1px solid var(--damm-line);
+}
+.ledgerRow {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 1fr);
+  gap: 24px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--damm-line);
+}
+.ledgerRow dt {
+  font: 500 var(--damm-fs-label) / 1.8 var(--ifm-font-family-monospace);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--damm-muted);
+}
+.ledgerRow dd {
+  margin: 0;
+  color: var(--damm-ink);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 996px) {
+  .fundGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cycleSteps {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .cycleSteps li + li {
+    padding-left: 0;
+    border-left: 0;
+    border-top: 1px solid var(--damm-line);
+  }
+  .ledgerRow {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cyFlow,
+  .dot {
+    animation: none;
+  }
+  .cyFlow {
+    stroke-dasharray: none;
+    opacity: 0.35;
+  }
+}
+
+/* ---------- overview hero ---------- */
+.hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  margin: 0 0 2.5rem;
+  padding: 72px 28px 48px;
+  border: 1px solid var(--damm-line);
+  background: var(--damm-bg-raise);
+}
+.hero::before,
+.hero::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 0 solid var(--damm-line-strong);
+  pointer-events: none;
+}
+.hero::before {
+  top: -1px;
+  left: -1px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+.hero::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  border-color: var(--damm-accent);
+}
+.ruler {
+  position: absolute;
+  top: 20px;
+  left: 28px;
+  right: 28px;
+  width: calc(100% - 56px);
+  height: 10px;
+  overflow: visible;
+}
+.ruler line {
+  stroke: var(--damm-line-strong);
+  stroke-width: 1;
+}
+.fx {
+  position: absolute;
+  top: 36px;
+  transform: translateX(-50%);
+  font: italic 300 18px/1 var(--damm-font-math);
+  color: var(--damm-muted);
+  white-space: nowrap;
+  animation: float 8s ease-in-out infinite;
+}
+.fx + .fx {
+  animation-delay: -4s;
+}
+@keyframes float {
+  50% {
+    transform: translate(-50%, -6px);
+  }
+}
+.heroMark {
+  position: absolute;
+  right: -60px;
+  bottom: -90px;
+  z-index: -1;
+  color: var(--damm-accent);
+  opacity: 0.09;
+  animation: breathe 9s ease-in-out infinite;
+}
+@keyframes breathe {
+  50% {
+    opacity: 0.14;
+  }
+}
+.heroIn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 44em;
+  margin-top: 32px;
+}
+.heroEye {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font: 500 var(--damm-fs-label) / 1.2 var(--ifm-font-family-monospace);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--damm-ink-2);
+}
+.heroTitle {
+  margin: 0;
+  font-size: clamp(38px, 5vw, 64px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  text-wrap: balance;
+}
+.heroMuted {
+  color: var(--damm-muted);
+}
+.heroLead {
+  margin: 0;
+  font-size: clamp(17px, 1.5vw, 20px);
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--damm-ink-2);
+  max-width: 34em;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    padding: 64px 18px 36px;
+  }
+  .fx {
+    display: none;
+  }
+  .heroMark {
+    width: 220px;
+    height: 220px;
+    right: -50px;
+    bottom: -60px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fx,
+  .heroMark {
+    animation: none;
+  }
+}

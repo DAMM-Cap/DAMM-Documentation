@@ -6,17 +6,15 @@ sidebar_position: 6
 
 # Permission Helpers
 
-Since DAMM offers **non-custodial Protocol Owned Liquidity (PoL) services** with active management on top of Uniswap, the release of **Uniswap V4** — with its new features — required us to adapt our models and integrate with Zodiac.
+DAMM offers **non-custodial protocol-owned liquidity (PoL) services**, with active management on Uniswap. When **Uniswap V4** launched with new features, we had to adapt our models and integrate it with Zodiac.
 
-However, we encountered challenges due to the way data is structured in Uniswap V4 and its current incompatibility with Zodiac V2. Specifically, to set proper permissions for Uniswap V4 calldata, we needed to verify **nested `abi.encode` structs**. This is a limitation of the **Zodiac Roles module**, which requires all logical branches to follow the same type structure.
+That raised a problem. Uniswap V4 structures its data in a way Zodiac Roles V2 could not handle. To set proper permissions on Uniswap V4 calldata, we needed to verify **nested `abi.encode` structs**. The Zodiac Roles module can't do this, because it requires every logical branch to share the same type structure. For the same reason, the existing Zodiac JS SDK could not solve it.
 
-To solve this, we developed **Permission Helpers**.
-These contracts are designed to overcome the limitations of the Zodiac Roles system, which previously prevented proper permission management for Uniswap V4. Because of these constraints, the solution could not be implemented via the existing Zodiac JS SDK.
+So we built **Permission Helpers**: contracts that work around these limits and make proper permission management for Uniswap V4 possible. They act as **calldata struct decoders**, so each transaction can be verified precisely.
 
-Our Permission Helpers act as **calldata struct decoders**, enabling precise transaction-level verification. They have been **audited by Certora**, one of the leading security firms in the space, and are **open-source under the MIT license**.
+The Permission Helpers are **audited by Certora**, one of the leading security firms in the space, and are **open source under the MIT license**.
 
-Repo: [https://github.com/DAMM-Cap/UniswapV4-Zodiac-Roles](https://github.com/DAMM-Cap/UniswapV4-Zodiac-Roles)
+- Repository: [github.com/DAMM-Cap/UniswapV4-Zodiac-Roles](https://github.com/DAMM-Cap/UniswapV4-Zodiac-Roles)
+- Audit report: [UniswapV4-Zodiac-Roles/audits](https://github.com/DAMM-Cap/UniswapV4-Zodiac-Roles/tree/main/audits)
 
-Audit Report: [https://github.com/DAMM-Cap/UniswapV4-Zodiac-Roles/tree/main/audits](https://github.com/DAMM-Cap/UniswapV4-Zodiac-Roles/tree/main/audits)
-
-For a deeper walkthrough of the approach, read our research article: [Providing Liquidity on Uniswap V4 While Preserving Self-Custody](https://dammcap.finance/research/uniswap-v4-zodiac-roles-verifiers/).
+For a full walkthrough of the approach, read our research article: [Providing Liquidity on Uniswap V4 While Preserving Self-Custody](https://dammcap.finance/research/uniswap-v4-zodiac-roles-verifiers/).

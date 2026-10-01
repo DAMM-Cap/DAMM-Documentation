@@ -6,18 +6,12 @@ sidebar_position: 4
 
 # Modular Capabilities
 
-DAMM Funds extend their functionality through Safe-compatible modules. These modules are composable and can be included individually or in combination depending on the fund's needs.
+DAMM funds add features through Safe-compatible modules. The modules are composable: a fund can use one, or combine several, depending on what it needs.
 
-### Transaction Management
+| Capability | Module | What it does |
+|---|---|---|
+| Transaction management | [Zodiac Roles Module](./zodiac-roles-module.md) | Operators transact for the fund, with scoped permissions for each DeFi protocol. |
+| Deposits and withdrawals | [Lagoon Deposit Module](./lagoon-deposit-module.md) | Investors deposit and receive shares, then redeem those shares to exit. |
+| Transaction delay | Zodiac Delay Module | Optional; not enabled on current DAMM funds. Can add a mandatory wait before sensitive transactions run, giving stakeholders time to review them. |
 
-Operators use the **Zodiac Roles Module** to transact on behalf of the fund, enabling secure and permissioned interaction with DeFi protocols.
-
-### Deposits and Withdrawals
-
-The **Lagoon Deposit Module** allows investors to invest in the fund or withdraw their capital. Users receive shares for deposits and can redeem them when exiting.
-
-### Transaction Delay
-
-The **Zodiac Delay Module** adds a mandatory delay before sensitive transactions are executed, creating a review period for stakeholders.
-
-> Modular capabilities let funds scale securely, while remaining flexible in design.
+Modules let funds scale securely while staying flexible in design.

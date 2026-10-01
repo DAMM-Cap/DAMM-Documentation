@@ -1,0 +1,37 @@
+---
+id: dammbtc
+title: Request access to DAMMbtc
+sidebar_label: DAMMbtc (request access)
+sidebar_position: 4
+description: DAMMbtc is live with new deposits capped. How to request access.
+---
+
+import {DepositNotice, Ledger} from '@site/src/components/Obsidian';
+
+# Request access to DAMMbtc
+
+DAMMbtc is live, and **new subscriptions are capped**. They are handled by request, so there is no self-serve deposit flow for this fund.
+
+<DepositNotice fund="DAMMbtc" />
+
+## How to request access
+
+1. **Email us.** Write to [team@dammcap.finance](mailto:team@dammcap.finance?subject=DAMMbtc%20access%20request) with the subject "DAMMbtc access request". Include the wallet address you would use.
+2. **Wait for our reply.** Don't send WBTC to the vault until we have confirmed. Only approved addresses can deposit.
+3. **If we confirm your subscription,** the deposit follows the same request, settlement and claim flow as the other DAMM funds, in WBTC on Ethereum. See [How to deposit](./index.mdx#how-a-deposit-works).
+
+<Ledger
+  rows={[
+    ['Network', 'Ethereum mainnet (chain ID 1)'],
+    ['Asset', <>WBTC (<a href="https://etherscan.io/token/0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599">0x2260…C599</a>)</>],
+    ['Vault', <><a href="https://etherscan.io/address/0x7ededf832b5c9d8afa8f7365936100581a6db756">0x7ededf832b5c9d8afa8f7365936100581a6db756</a></>],
+    ['Subscriptions', 'Capped, by request'],
+    ['Redemptions', 'Request-based, settled at NAV'],
+  ]}
+/>
+
+## Already invested?
+
+Redemptions work as usual. On the fund's [Lagoon page](https://app.lagoon.finance/vault/1/0x7ededf832b5c9d8afa8f7365936100581a6db756), request a redemption with your shares. After the next NAV settlement, claim your WBTC. Unlike DAMMstable and DAMMeth, DAMMbtc runs on Lagoon v0.6: you can cancel a pending redemption request and get your shares back until DAMM posts the next NAV update. After that it is locked in until settlement. If the Lagoon app shows no cancel option, email [team@dammcap.finance](mailto:team@dammcap.finance).
+
+Read the [DAMMbtc fund page](../funds/dammbtc.mdx) for the strategy, fees and wrapped-asset risk.

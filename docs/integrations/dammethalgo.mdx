@@ -6,10 +6,10 @@ sidebar_position: 5
 
 import {VaultMeta} from '@site/src/components/IntegrationsMeta';
 
-# DAMMethAlgo — API access
+# DAMMethAlgo: API access
 
-Fetch live and historical data for the **DAMM ETH Algo Fund** — an
-algorithmic, rule-based liquidity-provision fund — from the Lagoon API. See
+Fetch live and historical data for the **DAMM ETH Algo Fund** from the
+Lagoon API. It is an algorithmic, rule-based liquidity-provision fund. See
 [Integrations](./index.mdx) for the endpoint, conventions, and response shapes shared
 by all funds.
 
@@ -28,11 +28,11 @@ by all funds.
   ]}
 />
 
-:::info Whitelist required to transact
-Reading this data is open to everyone. DAMMethAlgo is a whitelist-gated
-vault: depositing or redeeming requires your address to be approved —
-request access via [team@dammcap.finance](mailto:team@dammcap.finance) or our
-[Telegram group](https://t.me/+6ntEC5sU7tM4Yjlh).
+:::info Internal vehicle
+Anyone can read this data. DAMMethAlgo is a whitelist-gated internal execution
+fund and is not open to outside investors. To invest with DAMM, email
+[team@dammcap.finance](mailto:team@dammcap.finance) and see
+[How to deposit](../deposit/index.mdx).
 :::
 
 ## 1. Core state, fees & APRs
@@ -44,13 +44,14 @@ curl -s -X POST https://api.lagoon.finance/query \
 ```
 
 - **Monetary fields are dual**: raw on-chain `BigInt` (`totalAssets`,
-  `pricePerShare` — WETH has 18 decimals) plus a convenience `…Usd: Float`.
+  `pricePerShare`, where WETH has 18 decimals) plus a convenience `…Usd: Float`.
   Track performance in the native series (`pricePerShare`), not the USD
   variants.
 - **Fees are basis points** (1e4 = 100%). Current configuration:
   `managementFee: 0`, `performanceFee: 0`, `protocolFee: 1000` = 10% (of
   collected fees), no entry/exit fees.
 - `weeklyApr.twrrNetApr` = time-weighted net APR; `linearNetApr` = simple.
+  Both are already in percent (e.g. `4.99` = 4.99%).
   A `null` APR means insufficient recent settlement data for that window.
 
 ## 2. Historical time series
@@ -67,11 +68,12 @@ curl -s -X POST https://api.lagoon.finance/query \
 
 Other series under `stateHistory`: `totalAssets`, `totalSupply`,
 `pricePerShareUsd`, `managementFee`, `performanceFee`, `protocolFee`,
-`highWaterMark`. One point lands per settlement (roughly weekly).
+`highWaterMark`. One point lands per settlement. Cadence is irregular (gaps from under a day
+to several weeks), so check the last point's `x` for the NAV's age.
 
 ## 3. Transaction / event history
 
-Every indexed event — deposits, redeem requests, settlements, fees taken,
+Every indexed event: deposits, redeem requests, settlements, fees taken and
 rate updates. Filter with suffix operators (`_eq`, `_in`, `_gte`, …);
 paginate with `first` + `skip`.
 
@@ -88,3 +90,16 @@ curl -s -X POST https://api.lagoon.finance/query \
 - A redeem's share burn appears as a `Transfer` to the vault's pending silo
   (`0xe1babd0324a5b91b4808f5b6363a103133d26c7f`), not to a third-party
   counterparty.
+
+## Caveat: composition data is incomplete
+
+:::warning DAMMethAlgo uses several Safes, and Lagoon only sees some of them
+DAMMethAlgo runs capital across several Safes, including a mother Safe and
+Aerodrome LP children on Base (v1.1). Lagoon's `composition` feed covers only
+part of this, recently about 40% of TVL, so `composition.totalValueInUsd` runs
+well below `state.totalAssetsUsd`.
+
+✅ Use `state.totalAssets` / `totalAssetsUsd` and `pricePerShare` for fund size
+and share price. ❌ Do **not** treat `composition` as a complete allocation
+picture for DAMMethAlgo.
+:::

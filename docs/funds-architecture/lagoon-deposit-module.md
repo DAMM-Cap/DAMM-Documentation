@@ -6,72 +6,70 @@ sidebar_position: 2
 
 # Lagoon Deposit Module
 
-The **Lagoon Deposit Module**, developed by [Lagoon Finance](https://docs.lagoon.finance/), enables DAMM Funds to tokenize and manage deposits using [ERC-7540](https://eips.ethereum.org/EIPS/eip-7540), an extension of [ERC-4626](https://eips.ethereum.org/EIPS/eip-4626).
+The **Lagoon Deposit Module**, built by [Lagoon Finance](https://docs.lagoon.finance/), lets DAMM funds tokenize and manage deposits. It uses [ERC-7540](https://eips.ethereum.org/EIPS/eip-7540), an extension of the [ERC-4626](https://eips.ethereum.org/EIPS/eip-4626) vault standard.
 
-While ERC-4626 defines a standard interface for tokenized vaults, **ERC-7540 introduces support for asynchronous deposits and withdrawals**, decoupling user requests from settlement. This design allows funds to batch process entries and exits, ensuring more efficient management, fairer share pricing, and stronger protections against front-running or volatility-driven mispricing.
+ERC-4626 defines a standard interface for tokenized vaults. **ERC-7540 adds asynchronous deposits and withdrawals**: a user's request is separate from its settlement. That lets a fund process entries and exits in batches. The result is simpler management, fairer share pricing, and better protection against front-running and mispricing in volatile markets.
 
-### Asynchronous Deposits and Withdrawals
+For a plain-language, step-by-step version for depositors, see [How to deposit](../deposit/index.mdx).
 
-Lagoon introduces a two-phase process for both deposits and withdrawals, separating the **request** from the **settlement**:
+## Asynchronous deposits and withdrawals
 
-1. **Request Phase**
-   * **Deposits:** When users request a deposit, their assets are moved into a **pending silo**. At this stage, no shares are minted and **funds do not earn yield while pending**. Yield accrual only begins once the deposit has been settled and incorporated into the fund. Importantly, **deposit requests can be cancelled** by the user prior to settlement.
-   * **Withdrawals:** Users can also request withdrawals, which are recorded in the pending silo. Unlike deposits, **withdrawal requests cannot be cancelled**, ensuring predictable liquidity and settlement processes for the fund.
-2. **Settlement & Claim Phase**
-   * **Settlement:** The fund's Net Asset Value (NAV) is provided by an oracle, which the fund manager has the flexibility to choose. This could be a **centralized oracle** operated by the manager or a **decentralized oracle** maintained by an external network. Settlement frequency is also **not fixed**—fund operators decide how often NAV is updated and requests are processed. This could be **once a day, multiple times per day, or even every few minutes**, depending on the fund's design and strategy.
-   * **Claiming:** After settlement, users must explicitly claim their shares (for deposits) or assets (for withdrawals). Until claimed, they remain in the pending silo indefinitely. **Shares inside the pending silo continue accruing yield**, ensuring users are not penalized for delayed claiming.
+Lagoon splits both deposits and withdrawals into two phases: the **request** and the **settlement**.
 
-This asynchronous model provides several key benefits:
+### 1. Request phase
 
-* **Batch Efficiency:** Reduces gas costs and operational overhead by settling multiple requests at once.
-* **Fair Valuation:** NAV-based pricing at settlement ensures all participants are treated equally.
-* **Security:** Explicit claims protect users, while request rules (**cancelable deposits**, **non-cancelable withdrawals**) balance flexibility with predictability.
+- **Deposits.** When you request a deposit, your assets move into a **pending silo**. No shares are minted yet, and **pending funds do not earn yield**. Yield starts only once the deposit is settled into the fund. **You can cancel a deposit request** while it is still pending in the current round, meaning until the fund's next NAV update is proposed. After that point the request is locked in and will be settled.
+- **Withdrawals.** Withdrawal requests are also recorded in the pending silo. On Lagoon v0.5 funds (DAMMstable, DAMMeth), **withdrawal requests cannot be cancelled**. This keeps the fund's liquidity and settlement predictable. Lagoon v0.6 funds (DAMMbtc) add a cancel function: a withdrawal request can be cancelled until the next NAV update is proposed, which may come before settlement.
 
-### Optional Synchronous Flow
+### 2. Settlement and claim phase
 
-While Lagoon is primarily designed around asynchronous flows, **version 0.5 and above** introduces support for an optional **synchronous deposit and withdrawal flow**.
+- **Settlement.** An oracle provides the fund's net asset value (NAV). The fund manager chooses the oracle. It can be a **centralized oracle** run by the manager or a **decentralized oracle** run by an external network. Settlement frequency is **not fixed** either. The fund operator decides how often to update NAV and process requests: once a day, several times a day, or even every few minutes, depending on the fund's design. DAMM's funds settle periodically on no fixed schedule, sometimes days to weeks apart; contact team@dammcap.finance for timing.
+- **Claiming.** After settlement, users claim their shares (for deposits) or assets (for withdrawals). Until claimed, they are held by the vault contract for you, with no time limit. **Settled shares keep earning yield while they wait to be claimed**, so claiming late costs nothing. Settled withdrawal assets are fixed at the settlement NAV.
 
-When synchronous flows are enabled, the fund's Net Asset Value (NAV) is set by the oracle, and this NAV has a **time-to-live (TTL)** parameter configured in the vault. During the TTL period, deposits and withdrawals can be executed synchronously—meaning assets are transferred and shares are minted (or redeemed) in a single step.
+### Why this model
 
-In this mode, the Lagoon fund behaves just like a standard [ERC-4626](https://eips.ethereum.org/EIPS/eip-4626) vault for deposits and withdrawals, with operations happening instantly and without delay.
+- **Batch efficiency.** Settling many requests at once cuts gas costs and operational overhead.
+- **Fair valuation.** Everyone who settles together gets the same NAV-based price.
+- **Security.** Explicit claims protect users. The request rules (deposits can be cancelled until the next NAV update is proposed; withdrawals are final on v0.5 funds and cancellable only until the next NAV update on v0.6) balance flexibility with predictability.
 
-### Whitelisting
+## Optional synchronous flow
 
-Lagoon funds support an **address whitelisting** mechanism that allows fund managers to control who can deposit into and withdraw from the fund:
+Lagoon is built around asynchronous flows. From **version 0.5** it also supports an optional **synchronous deposit**: the oracle sets the fund's NAV, and while that NAV is within its **time-to-live (TTL)**, a deposit mints shares in the same transaction.
 
-* **Whitelisted Access:** Only approved wallet addresses are permitted to make deposits or withdrawals.
-* **Composability Preserved:** This restriction applies only to entry and exit of the fund. Once shares are minted, they remain fully transferable and tradable by any address, ensuring full DeFi composability.
-* **Configurable Access:** Funds may be deployed with or without whitelists. This means they can be fully public and open to anyone, or restricted to a private set of liquidity providers (LPs) only.
+**Version 0.6 adds synchronous redemptions**, so a v0.6 fund with a valid NAV behaves like a standard [ERC-4626](https://eips.ethereum.org/EIPS/eip-4626) vault, with no waiting.
 
-This flexibility allows DAMM Funds to operate both **open-access public funds** and **private, permissioned funds**, depending on the strategy and investor requirements.
+DAMM funds currently run fully asynchronous: deposits and withdrawals are settled at the next NAV update.
 
-### Fees
+## Whitelisting
 
-Lagoon supports a flexible fee model that can be tailored to the needs of each fund:
+Lagoon funds can restrict who may enter and exit through an **address whitelist**:
 
-* **Assets Under Management (AUM) Fee:** A yearly fee, expressed as a percentage of the total assets managed by the fund. This fee is taken by **diluting existing shareholders**, distributing new shares to the manager proportionally to the fee owed.
-* **Performance Fee:** A fee based on the profits generated. Lagoon uses a **high-watermark fee structure**, ensuring that performance fees are only applied on new net gains and never on the same profits twice.
+- **Whitelisted access.** Only approved wallet addresses can deposit or withdraw.
+- **Composability preserved.** The restriction applies only to entering and leaving the fund. Once minted, shares are fully transferable and tradable by any address, so they stay composable across DeFi.
+- **Configurable.** A fund can run with or without a whitelist. It can be fully public, or limited to a private set of liquidity providers.
 
-Both **AUM and performance fees are charged at each settlement of the fund**, ensuring fees are applied consistently as the strategy operates.
+This lets DAMM run both **open public funds** and **private, permissioned funds**. All three DAMM funds (DAMMstable, DAMMeth and DAMMbtc) currently run in whitelist mode. To be approved, email [team@dammcap.finance](mailto:team@dammcap.finance) before you deposit.
 
-While not natively supported within Lagoon, **entrance and exit fees** can also be implemented through peripheral solutions. These external mechanisms can apply a surcharge on deposits or a deduction on withdrawals, allowing funds to discourage short-term movements or cover transaction overhead.
+## Fees
 
-This fee structure ensures that DAMM Funds can balance operational costs, incentivize performance, and maintain fair treatment of investors.
+Lagoon supports a flexible fee model:
 
-### Why DAMM Uses Lagoon
+- **Assets under management (AUM) fee.** A yearly fee, as a percentage of the fund's total assets. It is taken by **diluting existing shareholders**: the manager receives new shares in proportion to the fee owed.
+- **Performance fee.** A fee on profits. Lagoon uses a **high-water mark**, so the fee applies only to new net gains and never to the same profit twice.
 
-DAMM Funds leverage the Lagoon Deposit Module because it provides:
+**Both fees are charged at each settlement**, so they apply consistently as the strategy runs.
 
-* **Scalable Entry/Exit:** Handles deposits and withdrawals across multiple users without bottlenecks.
-* **Robust Risk Controls:** Decoupling request and settlement phases prevents mispricing and exploits during volatile conditions.
-* **Operational Modularity:** Lagoon is designed to integrate directly with Safe and Zodiac infrastructure while staying narrowly focused on deposits, withdrawals, and share pricing. It does not interfere with strategy execution or fund administration, ensuring a clean separation of responsibilities.
-* **Proven Security:** Lagoon has undergone multiple audits and currently secures **hundreds of millions in TVL**, demonstrating its reliability and resilience in production environments.
+Lagoon v0.6 supports **entry and exit fees** natively. They are taken from shares when a deposit or withdrawal settles. Older v0.5 vaults (DAMMstable, DAMMeth) can only add them through external contracts. Entry and exit fees can add a surcharge on deposits or a deduction on withdrawals, to discourage short-term flows or cover transaction costs. All DAMM funds currently charge 0% entry and 0% exit fees.
 
-### Additional Resources
+## Why DAMM uses Lagoon
 
-For more information on the Lagoon Deposit Module, including technical specifications, integration guides, and developer references, visit the [official Lagoon Finance documentation](https://docs.lagoon.finance/).
+- **Scalable entry and exit.** Handles deposits and withdrawals for many users without bottlenecks.
+- **Strong risk controls.** Separating request from settlement prevents mispricing and exploits in volatile markets.
+- **Clean separation.** Lagoon plugs straight into Safe and Zodiac, and it only handles deposits, withdrawals and share pricing. It stays out of strategy execution and fund administration.
+- **Proven security.** Lagoon has been audited several times and secures **over $100M in TVL** in production.
 
-You can also explore:
+## Further reading
 
-* [ERC-7540 Standard](https://eips.ethereum.org/EIPS/eip-7540) — the underlying specification enabling asynchronous deposits and withdrawals.
-* [ERC-4626 Standard](https://eips.ethereum.org/EIPS/eip-4626) — the base vault standard that ERC-7540 extends.
+- [Lagoon Finance documentation](https://docs.lagoon.finance/): technical specs, integration guides and developer references.
+- [ERC-7540](https://eips.ethereum.org/EIPS/eip-7540): the standard behind asynchronous deposits and withdrawals.
+- [ERC-4626](https://eips.ethereum.org/EIPS/eip-4626): the base vault standard that ERC-7540 extends.

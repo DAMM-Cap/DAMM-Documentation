@@ -1,0 +1,68 @@
+---
+id: deposit
+title: How to deposit
+sidebar_position: 1
+description: How deposits and redemptions work in DAMM funds, and what to do before you deposit.
+---
+
+import {DepositNotice, FundGrid, SettlementCycle} from '@site/src/components/Obsidian';
+
+# How to deposit
+
+DAMM funds are Lagoon vaults. Today you deposit and redeem through the [Lagoon app](https://app.lagoon.finance/?curator=curator%3Adamm-capital), which lists every DAMM fund. This page explains how the flow works. Each fund has its own step-by-step guide.
+
+<DepositNotice />
+
+## Pick your fund
+
+<FundGrid
+  cta="Deposit guide"
+  links={{
+    DAMMstable: '/deposit/dammstable',
+    DAMMeth: '/deposit/dammeth',
+    DAMMbtc: '/deposit/dammbtc',
+  }}
+/>
+
+| Fund | You deposit | Network | Guide |
+|---|---|---|---|
+| DAMMstable | USD₮0 | Arbitrum One | [Deposit into DAMMstable](./dammstable.mdx) |
+| DAMMeth | ETH / WETH | Ethereum | [Deposit into DAMMeth](./dammeth.mdx) |
+| DAMMbtc | WBTC | Ethereum | [Request access to DAMMbtc](./dammbtc.mdx) (deposits capped) |
+
+## How a deposit works
+
+DAMM funds use **asynchronous deposits and redemptions** (the [ERC-7540](https://eips.ethereum.org/EIPS/eip-7540) standard). A deposit is not instant. It happens in three steps:
+
+<SettlementCycle />
+
+In more detail:
+
+1. **You request a deposit.** Your assets leave your wallet and wait in the vault's pending area. You don't hold shares yet, and pending assets don't earn yield. Until DAMM proposes the next NAV update, you can cancel the request and get your assets back. After that, it is locked into the upcoming settlement.
+2. **DAMM settles.** At the next NAV settlement, DAMM updates the fund's net asset value. All pending requests are processed together, at the same share price. This is what keeps pricing fair for everyone in the fund.
+3. **You claim your shares.** After settlement, your shares are ready to claim in the Lagoon app. Shares earn yield from settlement onward, even if you don't claim them straight away.
+
+Management and performance fees are charged at each settlement, through the share price. Your shares already reflect them.
+
+## How a redemption works
+
+Redemptions mirror deposits:
+
+1. **You request a redemption** with your fund shares.
+2. **DAMM settles** at the next NAV settlement, and your shares are converted to the fund's asset at that price.
+3. **You claim your assets** in the Lagoon app.
+
+On DAMMstable and DAMMeth, a redemption request **cannot be cancelled** once sent. This keeps the fund's liquidity planning predictable. On DAMMbtc (Lagoon v0.6), a pending redemption request can be cancelled until the next NAV update is posted; after that it is locked in. See each fund page for its liquidity terms.
+
+## Before you start
+
+- **Email us first.** Write to [team@dammcap.finance](mailto:team@dammcap.finance) and tell us which fund you want and which wallet you will use. Only approved addresses can deposit or redeem.
+- **Use the right network.** DAMMstable is on Arbitrum One. DAMMeth and DAMMbtc are on Ethereum.
+- **Hold gas.** You need a little ETH on that network to pay transaction fees for the request and the claim.
+- **Check the vault address.** Anyone can deploy a Lagoon vault with a DAMM-like name. Always check the vault address against the fund page before you sign.
+
+## Track your position
+
+Connect your wallet on the fund's page in the Lagoon app. You'll see your shares, their current value and any pending requests. Fund-level performance is on the factsheets at [dammcap.finance](https://dammcap.finance).
+
+For the technical side of the vault layer, see [Lagoon Deposit Module](../funds-architecture/lagoon-deposit-module.md).

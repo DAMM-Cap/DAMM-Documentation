@@ -1,0 +1,80 @@
+---
+id: funds-architecture
+title: Funds Architecture (technical)
+sidebar_label: Overview
+sidebar_position: 1
+---
+
+# Funds Architecture
+
+DAMM is systems-driven, and always will be. The **DAMM Toolkit** is the stack we have built over the years to deploy and manage capital autonomously onchain, while keeping asset management non-custodial.
+
+The toolkit combines the benefits of self-custody with the reach of DeFi, under strict security standards. We built some components in house. Others come from industry peers or were built with partners.
+
+## How the pieces fit
+
+Every DAMM fund has three layers: a vault that handles investors, Safes that hold the capital, and a permission layer that decides what operators can do.
+
+```mermaid
+flowchart TB
+  I["Investors"] -- "deposit / redeem requests" --> V["Lagoon vault (ERC-7540)<br/>shares priced at NAV"]
+  V -- "settled capital" --> S["Fund Safe<br/>(multisig signers)"]
+  O["Operators and bots"] -- "only approved calls" --> R["Zodiac Roles<br/>scoped permissions"]
+  R -- "checked call" --> S
+  S -- "executes (assets stay in the Safe)" --> P["Approved DeFi protocols"]
+  class V accent
+```
+
+- The [Lagoon Deposit Module](./lagoon-deposit-module.md) handles deposits, redemptions and share pricing.
+- The fund's **Safe** holds the assets. Its signers keep control.
+- The [Zodiac Roles Module](./zodiac-roles-module.md) lets operators and bots act for the Safe, but only within scoped permissions.
+
+## Fund structures
+
+Funds can be structured in different ways to balance risk, isolate strategies and run several strategies at once.
+
+### Mother-child structures
+
+One Safe (the mother) can **own** several sub-Safes (the children). Each child runs its own strategy. This gives:
+
+- risk isolation between strategies;
+- a clear separation of responsibilities.
+
+```mermaid
+flowchart TB
+  M["Mother Safe"] -- owns --> C1["Child Safe 1"]
+  M -- owns --> C2["Child Safe 2"]
+  M -- owns --> C3["Child Safe 3"]
+  C1 -- executes --> S1["Strategy: market making"]
+  C2 -- executes --> S2["Strategy: lending / rates"]
+  C3 -- executes --> S3["Strategy: options / vol"]
+  class S1,S2,S3 accent
+```
+
+*The strategies shown are illustrative. In DAMM's Algo funds today, each child Safe runs one isolated Uniswap LP pair.*
+
+### Fund-to-fund structures
+
+A fund can also deposit into another fund and receive its shares in return. For example, a high-risk fund focused on long-tail assets could park part of its capital in a low-risk stablecoin fund, for risk management or short-term liquidity.
+
+DAMM uses this today. DAMMbtc, for example, allocates into DAMMbtcAlgo, an internal execution fund that charges no fees of its own.
+
+```mermaid
+flowchart TB
+  H["High-risk fund"] -- deposits --> SF["Stablecoin fund"]
+  H -- holds --> L["Long-tail assets"]
+  H -- holds --> LP["LP tokens"]
+  class SF accent
+```
+
+Mother-child and fund-to-fund structures can be combined to build complex, multi-strategy funds.
+
+## Components
+
+The following pages cover each part of the DAMM Toolkit and how they connect:
+
+- [Lagoon Deposit Module](./lagoon-deposit-module.md): async deposits and redemptions, valuation, fees and whitelisting.
+- [Zodiac Roles Module](./zodiac-roles-module.md): scoped permissions for operators and bots.
+- [Modular Capabilities](./modular-capabilities.md): the Safe modules a fund can combine.
+- [Cross-Chain Deployment](./cross-chain-deployment.mdx): one fund address across networks.
+- [Permission Helpers](./permission-helpers.md): DAMM's audited contracts that make Uniswap V4 work with Zodiac Roles.

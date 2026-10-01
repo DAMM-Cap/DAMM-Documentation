@@ -1,24 +1,58 @@
+import fs from 'fs';
+import path from 'path';
 import {themes as prismThemes} from 'prism-react-renderer';
-import type {Config} from '@docusaurus/types';
+import type {Config, Plugin} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
+/**
+ * Tiny local plugin: lists the files present in static/video at build time and
+ * exposes them as global data. <DepositVideo> reads it, so a missing video
+ * renders a text fallback instead of a broken player, and the build never
+ * depends on the video files existing.
+ */
+function staticVideosPlugin(): Plugin {
+  return {
+    name: 'damm-static-videos',
+    async contentLoaded({actions}) {
+      const dir = path.join(__dirname, 'static', 'video');
+      let files: string[] = [];
+      try {
+        files = fs.readdirSync(dir).filter((f) => !f.startsWith('.'));
+      } catch {
+        files = [];
+      }
+      actions.setGlobalData({files});
+    },
+  };
+}
+
+/** Obsidian code theme: near-black panel, off-white ink, lime accents. */
+const obsidianPrism = {
+  plain: {color: '#E4E6DF', backgroundColor: '#0A0B0A'},
+  styles: [
+    {types: ['comment', 'prolog', 'doctype', 'cdata'], style: {color: '#6B6F68', fontStyle: 'italic' as const}},
+    {types: ['punctuation', 'operator'], style: {color: '#8B8B93'}},
+    {types: ['string', 'char', 'attr-value', 'template-string'], style: {color: '#BEF264'}},
+    {types: ['number', 'boolean', 'constant'], style: {color: '#D9F99D'}},
+    {types: ['keyword', 'selector', 'important', 'atrule'], style: {color: '#84CC16'}},
+    {types: ['function', 'class-name'], style: {color: '#F2F3EE'}},
+    {types: ['property', 'tag', 'attr-name', 'variable', 'parameter'], style: {color: '#C8CBC2'}},
+    {types: ['builtin', 'symbol'], style: {color: '#A3E635'}},
+  ],
+};
+
 const config: Config = {
-  title: 'DAMM',
-  tagline: 'DAMM Documentation',
+  title: 'DAMM Capital Docs',
+  tagline: 'The financial and technical arm for institutions adopting DeFi.',
   favicon: 'img/favicon.ico',
 
-  // Set the production url of your site here
   url: 'https://docs.dammcap.finance',
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: 'DAMM-Cap', // Usually your GitHub org/user name.
-  projectName: 'DAMM-Documentation', // Usually your repo name.
+  organizationName: 'DAMM-Cap',
+  projectName: 'DAMM-Documentation',
   deploymentBranch: 'main',
 
   onBrokenLinks: 'throw',
@@ -29,10 +63,16 @@ const config: Config = {
     mermaid: true,
   },
   themes: ['@docusaurus/theme-mermaid'],
+  plugins: [staticVideosPlugin],
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
+  // Newsreader italic is used only for math and formula annotations.
+  stylesheets: [
+    {
+      href: 'https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@1,6..72,300;1,6..72,400&display=swap',
+      type: 'text/css',
+    },
+  ],
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -40,23 +80,41 @@ const config: Config = {
 
   themeConfig: {
     image: 'img/damm-social-card.png',
+    colorMode: {
+      defaultMode: 'dark',
+      disableSwitch: false,
+      respectPrefersColorScheme: false,
+    },
+    mermaid: {
+      theme: {light: 'base', dark: 'base'},
+      options: {
+        fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+        fontSize: 13,
+        flowchart: {curve: 'basis', padding: 14, nodeSpacing: 40, rankSpacing: 56},
+      },
+    },
     navbar: {
-      title: 'DAMM Capital',
+      title: '',
       logo: {
-        alt: 'DAMM Logo',
-        src: 'img/logo.svg',
+        alt: 'DAMM Capital',
+        src: 'img/damm-lockup-light.svg',
+        srcDark: 'img/damm-lockup-dark.svg',
+        height: 30,
       },
       items: [
         {
           type: 'docSidebar',
           sidebarId: 'docs',
           position: 'left',
-          label: 'Documentation',
+          label: 'Docs',
         },
+        {to: '/funds', label: 'Funds', position: 'left'},
+        {to: '/deposit', label: 'How to deposit', position: 'left'},
+        {to: '/integrations', label: 'API', position: 'left'},
         {
           href: 'https://dammcap.finance/research',
           label: 'Research',
-          position: 'left',
+          position: 'right',
         },
         {
           href: 'https://github.com/DAMM-Cap',
@@ -69,39 +127,40 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Community',
+          title: 'Funds',
           items: [
-            {
-              label: 'LinkedIn',
-              href: 'https://www.linkedin.com/company/damm-capital/',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/DAMM_Capital',
-            },
+            {label: 'DAMMstable', to: '/funds/dammstable-arbitrum'},
+            {label: 'DAMMeth', to: '/funds/dammeth'},
+            {label: 'DAMMbtc', to: '/funds/dammbtc'},
+            {label: 'How to deposit', to: '/deposit'},
           ],
         },
         {
-          title: 'Resources',
+          title: 'DAMM',
           items: [
-            {
-              label: 'Blog',
-              href: 'https://dammcap.finance/#blog',
-            },
-            {
-              label: 'GitHub',
-              href: 'https://github.com/DAMM-Cap',
-            },
+            {label: 'Website', href: 'https://dammcap.finance'},
+            {label: 'Research', href: 'https://dammcap.finance/research'},
+            {label: 'Security', to: '/security'},
+            {label: 'Contact', href: 'mailto:team@dammcap.finance'},
+          ],
+        },
+        {
+          title: 'Social',
+          items: [
+            {label: 'X', href: 'https://x.com/DAMM_Capital'},
+            {label: 'LinkedIn', href: 'https://www.linkedin.com/company/damm-capital/'},
+            {label: 'GitHub', href: 'https://github.com/DAMM-Cap'},
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} DAMM Labs. Built with Docusaurus.`,
+      copyright: `© ${new Date().getFullYear()} DAMM Labs. Quantitative digital asset management.`,
     },
     prism: {
       theme: prismThemes.github,
-      darkTheme: prismThemes.dracula,
+      darkTheme: obsidianPrism,
+      additionalLanguages: ['bash', 'json'],
     },
-  },
+  } satisfies Preset.ThemeConfig,
 
   presets: [
     [
@@ -117,7 +176,7 @@ const config: Config = {
         },
       } satisfies Preset.Options,
     ],
-  ]
+  ],
 };
 
 export default config;

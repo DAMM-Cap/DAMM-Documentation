@@ -6,32 +6,32 @@ sidebar_position: 9
 
 # About the Team
 
-[**bauti.eth , Co-founder & CTO**](https://x.com/BautiDeFi)
+DAMM started in 2021, when brothers **Pablo Baiocchi** and **Bautista Baiocchi Lora** set up a Uniswap v3 quant shop. They needed to protect dollars from their family's agricultural business in Argentina against inflation, so they built liquidity strategies and ran them with their own money.
 
-Bauti is a crypto-native full-stack engineer with deep roots in offensive security and smart-contract development.
+The models that worked became our tokenized funds. The infrastructure built to run them safely became DeFi as a Service. In 2025, **Juan Samitier** joined as co-founder and CIO. He brought asset-management and financial-engineering experience and led the shift from a quant shop to a global asset management firm: same engine, two verticals.
 
-He has been writing software since age 13, turning out everything from full-stack web apps to jailbreaks and automated bot farms.
+## Founding team
 
-At DAMM, he designs the system architecture, leads the engineering team, and runs day-to-day operations—while also keeping DAMM safe in the "dark forest" of DeFi by hardening every layer of the stack against on-chain threats. As the saying goes, judge a dev by his [GitHub](https://github.com/bauti-defi).
+### [Pablo Baiocchi](https://x.com/pabletes_eth) · Co-founder, Chief Quant Officer
 
-[**Pablo, Co-Founder & Chief Quant Officer**](https://x.com/pabletes_eth)
+Pablo co-founded DAMM with his brother Bauti. He holds a double degree in computer engineering and finance. He turns abstract mathematics into deployable liquidity strategies, and designs the simulators, back-testing engines and statistical models that steer every trade.
 
-Pablo co-founded DAMM alongside his brother Bauti and serves as Chief Quant Officer.
+He leads DAMM's quant team and draws on prior TradFi experience to bring institutional rigor to DeFi.
 
-A double-degree holder in computer engineering and finance, he turns abstract mathematics into deployable liquidity strategies—designing the simulators, back-testing engines, and statistical models that steer every trade. Pablo leads DAMM's quant team and draws on prior TradFi experience to bridge institutional rigor with DeFi innovation.
+### [Bautista Baiocchi Lora (bauti.eth)](https://x.com/BautiDeFi) · Co-founder, CTO
 
-[**Juan Samitier, Co-founder & Head of Strategy**](https://x.com/JuanSamitier)
+Bauti co-founded DAMM in 2021 with his brother Pablo and leads engineering: the smart contracts, execution infrastructure and data pipelines that every fund and integration runs on.
 
-Juan joined DAMM to scale its vision from a yield-generating engineering shop to a DeFi-native institutional asset manager.
+He is a crypto-native full-stack engineer with deep roots in offensive security and smart-contract development. He has been writing software since he was 13, from full-stack web apps to jailbreaks and automated bot farms. At DAMM he designs the system architecture, leads the engineering team and runs day-to-day operations. He also keeps DAMM safe in the "dark forest" of DeFi by hardening every layer of the stack against onchain threats. As the saying goes, judge a dev by his [GitHub](https://github.com/bauti-defi).
 
-As the long-time Treasury Manager at [Kleros](https://kleros.io/), Juan has overseen over 30 million USD in ETH- and USD-denominated assets, running strategies with no impermanent loss across lending markets and stable pools.
+### [Juan Samitier](https://x.com/JuanSamitier) · Co-founder, CIO (since 2025)
 
-He's also deeply connected in the crypto ecosystem, leveraging close relationships with top protocols, builders, and investors to access early insights, conduct deeper research, and consistently generate alpha.
+Juan joined DAMM in 2025 to grow it from a quant shop into a global, DeFi-native asset management firm.
 
-Additionally, he pioneered [SAFU,](https://x.com/JuanSamitier) a restaking-based insurance framework, and [Fantasy Tier](https://x.com/fantasy_tier), a composable infrastructure for on-chain fantasy gaming, both deeply integrated into Ethereum-native rails.
+Before DAMM he was the long-time treasury manager at [Kleros](https://kleros.io/). There he oversaw more than 30 million USD in ETH- and USD-denominated assets, ran its market-neutral funds, and explained the game theory behind Kleros courts around the world.
 
-[**Bautista Chasco, Quant**](https://x.com/chasquitox)
+He founded [SAFU](https://x.com/JuanSamitier), a restaking-based insurance framework, designing and pitching its first product before leaving to join DAMM. He also co-founded [Fantasy Tier](https://x.com/fantasy_tier), composable infrastructure for onchain fantasy gaming that still runs amateur tournaments today.
 
-Chasco is a mechanical engineer with a master's in robotics who previously worked on satellite microcontrollers.
+## The quant team
 
-At DAMM, he's a quant helping build the algorithms that run capital—designing and back-testing the models behind the funds' capital-allocation and market-making strategies.
+The founders are backed by a lean quant team, including an engineer who left high-tech robotics to build with us. The team designs and back-tests the models behind the funds' capital allocation and market-making strategies.

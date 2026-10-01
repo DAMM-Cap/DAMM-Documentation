@@ -6,10 +6,10 @@ sidebar_position: 6
 
 import {VaultMeta} from '@site/src/components/IntegrationsMeta';
 
-# DAMMbtcAlgo — API access
+# DAMMbtcAlgo: API access
 
-Fetch live and historical data for the **DAMM BTC Algo Fund** — an
-algorithmic, rule-based liquidity-provision fund — from the Lagoon API. See
+Fetch live and historical data for the **DAMM BTC Algo Fund** from the
+Lagoon API. It is an algorithmic, rule-based liquidity-provision fund. See
 [Integrations](./index.mdx) for the endpoint, conventions, and response shapes shared
 by all funds.
 
@@ -30,11 +30,11 @@ by all funds.
 
 :::info Not directly investable
 DAMMbtcAlgo is whitelist-gated and currently admits **only the
-[DAMMbtc](./dammbtc.mdx) fund** as a depositor — that's why its management and
+[DAMMbtc](./dammbtc.mdx) fund** as a depositor. That's why its management and
 performance fees are 0%: fees are charged once, at the DAMMbtc level. To get
-exposure, invest through DAMMbtc (whitelisting required — contact
-[team@dammcap.finance](mailto:team@dammcap.finance) or our
-[Telegram group](https://t.me/+6ntEC5sU7tM4Yjlh)). Its data remains fully
+exposure, invest through DAMMbtc: email
+[team@dammcap.finance](mailto:team@dammcap.finance) and see the
+[DAMMbtc access guide](../deposit/dammbtc.mdx). Its data remains fully
 readable via the API.
 :::
 
@@ -47,13 +47,14 @@ curl -s -X POST https://api.lagoon.finance/query \
 ```
 
 - **Monetary fields are dual**: raw on-chain `BigInt` (`totalAssets`,
-  `pricePerShare` — WBTC has 8 decimals) plus a convenience `…Usd: Float`.
+  `pricePerShare`, where WBTC has 8 decimals) plus a convenience `…Usd: Float`.
   Track performance in the native series (`pricePerShare`), not the USD
   variants.
 - **Fees are basis points** (1e4 = 100%). Current configuration:
   `managementFee: 0`, `performanceFee: 0` (fees are charged at the
-  [DAMMbtc](./dammbtc.mdx) level), `protocolFee: 1000` = 10% (of collected fees).
+  [DAMMbtc](./dammbtc.mdx) level), `protocolFee: 750` = 7.5% (of collected fees, at time of writing).
 - `weeklyApr.twrrNetApr` = time-weighted net APR; `linearNetApr` = simple.
+  Both are already in percent (e.g. `4.99` = 4.99%).
   A `null` APR means insufficient recent settlement data for that window.
 
 ## 2. Historical time series
@@ -70,11 +71,12 @@ curl -s -X POST https://api.lagoon.finance/query \
 
 Other series under `stateHistory`: `totalAssets`, `totalSupply`,
 `pricePerShareUsd`, `managementFee`, `performanceFee`, `protocolFee`,
-`highWaterMark`. One point lands per settlement (roughly weekly).
+`highWaterMark`. One point lands per settlement. Cadence is irregular (gaps from under a day
+to several weeks), so check the last point's `x` for the NAV's age.
 
 ## 3. Transaction / event history
 
-Every indexed event — deposits, redeem requests, settlements, fees taken,
+Every indexed event: deposits, redeem requests, settlements, fees taken and
 rate updates. Filter with suffix operators (`_eq`, `_in`, `_gte`, …);
 paginate with `first` + `skip`.
 

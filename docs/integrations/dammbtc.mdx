@@ -6,7 +6,7 @@ sidebar_position: 4
 
 import {VaultMeta} from '@site/src/components/IntegrationsMeta';
 
-# DAMMbtc — API access
+# DAMMbtc: API access
 
 Fetch live and historical data for the **DAMM Bitcoin Fund** from the
 Lagoon API. See [Integrations](./index.mdx) for the endpoint, conventions, and
@@ -23,7 +23,7 @@ response shapes shared by all funds.
     {k: 'chainId', v: '1 · Ethereum'},
     {k: 'Asset', v: 'WBTC (8 decimals)'},
     {k: 'Curator', v: 'DAMM Capital'},
-    {k: 'Access', v: 'Whitelist'},
+    {k: 'Access', v: 'Private (whitelist)'},
     {
       k: 'Invest',
       v: 'app.lagoon.finance',
@@ -32,17 +32,15 @@ response shapes shared by all funds.
   ]}
 />
 
-:::info Whitelist required to transact
-Reading this data is open to everyone. Depositing into or redeeming from the
-vault requires your address to be whitelisted — request access via
-[team@dammcap.finance](mailto:team@dammcap.finance) or our
-[Telegram group](https://t.me/+6ntEC5sU7tM4Yjlh).
+:::info Reading is open. Depositing is private.
+Anyone can read this data. Only approved addresses can deposit into or redeem
+from the vault. Email [team@dammcap.finance](mailto:team@dammcap.finance)
+before you deposit, then follow the [DAMMbtc deposit guide](../deposit/dammbtc.mdx).
 :::
 
 :::note Recently launched
-DAMMbtc went live on Ethereum mainnet on **2026-07-30**. Until settlements
-accumulate, `stateHistory` is sparse and the APR windows (`weeklyApr`,
-`monthlyApr`, `yearlyApr`) return `null`.
+The DAMMbtc vault was deployed on Ethereum mainnet on **2026-07-30**, and
+its first NAV settlement was on **2026-08-04**. History is still short (a handful of settlements), so `stateHistory` has only a few points. The APR windows (`weeklyApr`, `monthlyApr`, `yearlyApr`) do return values, but they are annualized from very little data. Until the vault is a year old, `yearlyApr` equals `inceptionApr`, so do not read it as an annual track record (the website shows "insufficient history" for this reason). Handle `null` defensively anyway.
 :::
 
 ## 1. Core state, fees & APRs
@@ -54,13 +52,14 @@ curl -s -X POST https://api.lagoon.finance/query \
 ```
 
 - **Monetary fields are dual**: raw on-chain `BigInt` (`totalAssets`,
-  `pricePerShare` — WBTC has 8 decimals) plus a convenience `…Usd: Float`.
+  `pricePerShare`, where WBTC has 8 decimals) plus a convenience `…Usd: Float`.
   DAMMbtc is a BTC-denominated fund: track performance in the native series
   (`pricePerShare`), not the USD variants.
 - **Fees are basis points** (1e4 = 100%). Current configuration:
-  `managementFee: 0`, `performanceFee: 1500` = 15%, `protocolFee: 1000` = 10%
+  `managementFee: 0`, `performanceFee: 1500` = 15%, `protocolFee: 750` = 7.5%
   (of collected fees), no entry/exit fees.
 - `weeklyApr.twrrNetApr` = time-weighted net APR; `linearNetApr` = simple.
+  Both are already in percent (e.g. `4.99` = 4.99%).
   A `null` APR means insufficient recent settlement data for that window.
 
 ## 2. Historical time series
@@ -77,11 +76,12 @@ curl -s -X POST https://api.lagoon.finance/query \
 
 Other series under `stateHistory`: `totalAssets`, `totalSupply`,
 `pricePerShareUsd`, `managementFee`, `performanceFee`, `protocolFee`,
-`highWaterMark`. One point lands per settlement (roughly weekly).
+`highWaterMark`. One point lands per settlement. Cadence is irregular (gaps from under a day
+to several weeks), so check the last point's `x` for the NAV's age.
 
 ## 3. Transaction / event history
 
-Every indexed event — deposits, redeem requests, settlements, fees taken,
+Every indexed event: deposits, redeem requests, settlements, fees taken and
 rate updates. Filter with suffix operators (`_eq`, `_in`, `_gte`, …);
 paginate with `first` + `skip`.
 

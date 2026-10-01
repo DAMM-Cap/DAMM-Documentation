@@ -1,0 +1,52 @@
+---
+id: dammstable
+title: Deposit into DAMMstable
+sidebar_label: DAMMstable
+sidebar_position: 2
+description: Step-by-step guide to depositing USD₮0 into DAMMstable on Arbitrum through Lagoon, and redeeming.
+---
+
+import {DepositNotice, DepositVideo, Ledger} from '@site/src/components/Obsidian';
+
+# Deposit into DAMMstable
+
+DAMMstable takes **USD₮0 on Arbitrum One**. You deposit through the Lagoon app. Your deposit settles at the fund's next NAV, and then you claim DAMMstable shares.
+
+<DepositNotice fund="DAMMstable" />
+
+<DepositVideo name="dammstable-deposit" title="DAMMstable · deposit walkthrough" />
+
+## What you need
+
+<Ledger
+  rows={[
+    ['Approval', <>An approved wallet. Email <a href="mailto:team@dammcap.finance?subject=DAMMstable%20deposit">team@dammcap.finance</a> first.</>],
+    ['Network', 'Arbitrum One (chain ID 42161)'],
+    ['Asset', <>USD₮0 (<a href="https://arbiscan.io/token/0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9">0xFd08…bb9</a>)</>],
+    ['Gas', 'A little ETH on Arbitrum'],
+    ['Vault', <><a href="https://arbiscan.io/address/0xe5d6eb448ac5a762c1ebe8cd1692b9cd08025176">0xe5d6eb448ac5a762c1ebe8cd1692b9cd08025176</a></>],
+    ['App', <><a href="https://app.lagoon.finance/?curator=curator%3Adamm-capital">Lagoon · DAMM Capital funds</a></>],
+  ]}
+/>
+
+## Deposit
+
+1. **Email us.** Write to [team@dammcap.finance](mailto:team@dammcap.finance?subject=DAMMstable%20deposit) with the wallet address you plan to use. Wait for our reply before you send funds.
+2. **Fund your wallet.** Hold the USD₮0 you want to deposit on Arbitrum One, plus a little ETH for gas.
+3. **Open the fund.** Go to [DAMM Capital on Lagoon](https://app.lagoon.finance/?curator=curator%3Adamm-capital) and select **DAMM Stablecoin Fund (DAMMstable)** on Arbitrum. Or open the [vault page directly](https://app.lagoon.finance/vault/42161/0xe5d6eb448ac5a762c1ebe8cd1692b9cd08025176). Check that the vault address matches the one above.
+4. **Connect and enter the amount.** Connect your wallet and enter how much USD₮0 to deposit.
+5. **Approve, then request.** Approve USD₮0 for the vault, then confirm the deposit request. Your USD₮0 moves into the vault's pending area.
+6. **Wait for settlement.** The request stays pending until DAMM's next NAV settlement. It earns no yield while pending. You can cancel it in the app until the next NAV update is proposed.
+7. **Claim your shares.** After settlement, your DAMMstable shares are ready. Claim them in the app. They earn yield from settlement onward, claimed or not.
+
+## Redeem
+
+1. On the fund's Lagoon page, choose to redeem and enter how many shares to redeem.
+2. Confirm the redemption request. It **cannot be cancelled** once sent.
+3. After the next settlement, claim your USD₮0 in the app.
+
+DAMMstable offers T+1 liquidity when needed. See [DAMMstable terms](../funds/dammstable-arbitrum.mdx#terms-and-fees).
+
+:::tip Track your position
+Connect your wallet on the [DAMMstable Lagoon page](https://app.lagoon.finance/vault/42161/0xe5d6eb448ac5a762c1ebe8cd1692b9cd08025176) to see your shares, their value and any pending requests.
+:::
